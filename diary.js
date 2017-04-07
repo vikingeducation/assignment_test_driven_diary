@@ -1,19 +1,29 @@
-let entriesArr = [];
+
 
 
 class Diary {
 
+  constructor() {
+    this._entries = [];
+    this._tags = [];
+  }
+
   entry(message, date) {
-  	if(date) {
-  		entriesArr.push({ 'message': message, 'date': date });
-  	} else {
-  		entriesArr.push({ 'message': message, 'date': Date.now() });
-  	}
+  	if(!date) {
+      date = Date.now();
+    }
+    let messageTag = message.split("#")[1];
+    let messageText = message.split("#")[0];
+    if (messageTag && !this._tags.includes(messageTag)) {
+      this._tags.push(messageTag);
+    }
+    this._entries.push({ 'message': message, 'date': date, 'tag': tag });
   }
 
   entries() {
-  	return entriesArr;
+  	return this._entries;
   }
+
 
 }
 
@@ -21,4 +31,4 @@ class Diary {
 
 
 
-module.exports = {entriesArr, Diary};
+module.exports = {Diary};
