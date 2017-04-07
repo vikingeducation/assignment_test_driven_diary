@@ -1,5 +1,7 @@
 class Bob {
   hey(inputString) {
+    inputString = inputString.trim();
+    
     var stringLen = inputString.length;
 
     if (stringLen === 0) {
@@ -24,11 +26,18 @@ class Bob {
         }
         return "Whatever.";
       default:
+        if (this.lastIsNumber(inputString)) {
+          return "Whatever.";
+        }
         if (this.isCapital(inputString)) {
           return "Whoa, chill out!";
         }
         return "Whatever.";
     }
+  }
+
+  lastIsNumber(inputString) {
+    return !isNaN(inputString[0]);
   }
 
   isCapital(inputString) {
