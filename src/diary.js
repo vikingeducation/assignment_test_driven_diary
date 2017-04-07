@@ -1,31 +1,36 @@
-function Diary() {
-  this.entriesLog = []
-}
+class Diary {
 
-Diary.prototype.entry = function(entry, customDate) {
-  var d = new Date().toString();
-  if (customDate) {
-    entry = `${entry} ~Written on ${customDate}`;
-  } else {
-    entry = `${entry} ~Written on ${d}`;
-  }
+  constructor() {
+    this.entriesLog = []
+  };
 
-  this.entriesLog.push(entry)
-  return entry
+  entry(entry, customDate) {
+    var date = new Date().toString();
 
-};
-
-Diary.prototype.entries = function() {
-  return this.entriesLog;
-}
-
-Diary.prototype.tags = function() {
-  tagsList = []
-  this.entriesLog.forEach(entry => {
-    entry = entry.match(/#\w+/)
-    
+    if (customDate) {
+      entry = `${entry} ~Written on ${customDate}`;
+    } else {
+      entry = `${entry} ~Written on ${date}`;
     }
-  })
+
+    this.entriesLog.push(entry)
+    return entry
+
+  };
+  
+  entries() {
+    return this.entriesLog;
+  };
+
+  tags() {
+    tagsList = []
+    this.entriesLog.forEach(entry => {
+      entry = entry.match(/#\w+/)
+      //stopping point
+      }
+    })
+  };
+
 }
 
 module.exports = Diary;
