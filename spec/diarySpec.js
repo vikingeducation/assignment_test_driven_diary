@@ -11,10 +11,7 @@ describe("Diary", () => {
     //test 1
     it("creates a new diary entry item without date", () => {
       diary.entry("Jerry is so cool");
-
       expect(diary._entries[0].text).toEqual("Jerry is so cool");
-
-      //expect(diary._entries[0].date).toBeCloseTo(Date.now(), 0);
     });
 
     //test 2
@@ -64,7 +61,7 @@ describe("Diary", () => {
       expect(diary.entries()[0].text).toEqual("Jerry is so cool");
       expect(diary.entries()[1].text).toEqual("Deven is so cool");
     });
-  });
+  }); // end of describe(.entries)
 
   describe(".entriesWithTag", () => {
     //test 8
@@ -77,7 +74,7 @@ describe("Diary", () => {
       );
       expect(diary.entriesWithTag("smartypants").length).toEqual(1);
     });
-  });
+  }); // end of describe(.entriesWithTag)
 
   describe(".today", () => {
     // test 9
@@ -87,15 +84,15 @@ describe("Diary", () => {
       expect(diary.today()[0].text).toEqual("Yes");
       expect(diary.today().length).toEqual(1);
     });
-  });
+  }); // end of describe(.today)
 
   describe(".date", () => {
     // test 10
     it("returns entries on that date", () => {
-      diary.entry("Yes", Date.parse('4/7/2017'));
-      diary.entry("No", Date.parse('4/6/2017'));
-      expect(diary.date(Date.parse('4/7/2017'))[0].text).toEqual("Yes");
-      expect(diary.date(Date.parse('4/7/2017')).length).toEqual(1);
+      diary.entry("Yes", Date.parse("4/7/2017"));
+      diary.entry("No", Date.parse("4/6/2017"));
+      expect(diary.date(Date.parse("4/7/2017"))[0].text).toEqual("Yes");
+      expect(diary.date(Date.parse("4/7/2017")).length).toEqual(1);
     });
-  });
+  }); // end of describe(.date)
 });
