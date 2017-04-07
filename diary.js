@@ -1,4 +1,4 @@
-
+const fs = require('fs');
 
 
 class Diary {
@@ -61,6 +61,17 @@ class Diary {
       }
     });
     return messagesOnDate;
+  }
+
+  search(str) {
+    var messagesThatMatch = [];
+
+    this._entries.forEach( (entry) => {
+      if(entry.message.indexOf(str) >= 0) {
+        messagesThatMatch.push(entry.message);
+      }
+    })
+    return messagesThatMatch;
   }
 
 
