@@ -20,9 +20,10 @@ Diary.prototype.entries = function() {
 }
 
 Diary.prototype.tags = function() {
+  tagsList = []
   this.entriesLog.forEach(entry => {
-    if (entry.match(/#/) {
-      
+    entry = entry.match(/#\w+/)
+    
     }
   })
 }
