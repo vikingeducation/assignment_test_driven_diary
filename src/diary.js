@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 class Diary {
   constructor() {
     this.entriesLog = [];
@@ -90,6 +92,11 @@ class Diary {
       }
     });
     return entriesWithQuery;
+  }
+
+  save(path) {
+
+    fs.writeFileSync(path, JSON.stringify(this.entriesLog, null, 2))
   }
 }
 

@@ -79,12 +79,13 @@ describe('When we want to manage data', function() {
   beforeEach(function() {
     diary = new Diary();
     d = diary.getFormattedDate();
-    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm standing outside Brad's house #yolo", "04/03/2017");
   });
 
   it('should save all current entries to a provided location', function() {
-    diary.save('./data/diary.json')
-
-    expect(fs.readFileSync('./data/diary.json')).toBe(`{ body: \`I'm standing outside Brad's house #yolo\`, date: ${d}}``);
+    diary.save('./.diary')
+    const diaryFile = require('../.diary')
+    expect(diaryFile).toBe("I'm standing outside Brad's house #yolo");
   })
-}
+
+})
