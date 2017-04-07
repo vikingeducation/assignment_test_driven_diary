@@ -79,7 +79,7 @@ class Diary {
     this._entries.forEach((entry) => {
       jsonData.entries.push(entry);
     });
-    fs.writeFileSync('./${fileDest}', JSON.stringify(jsonData, null, 2))
+    fs.writeFileSync('${fileDest}', JSON.stringify(jsonData, null, 2))
   }
 
 

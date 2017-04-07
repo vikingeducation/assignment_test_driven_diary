@@ -110,10 +110,20 @@ describe("Diary", function() {
   });
 
   describe("save and load files", function() {
+    beforeEach(function() {
+      fs.writeFileSync('testDiary.json', json.stringify({}));
+    })
 
     it("saves current entries to file", function() {
-      diary.save('testDiary.json');
-      
+      diary.save('./testDiary.json');
+      var entries = diary.load('./testDiary.json')
+      expect(entries.length).toEqual(6);
+    })
+
+    it("saves current entries to file", function() {
+      diary.save('./testDiary.json');
+      var entries = diary.load('./testDiary.json')
+      expect(entries[0].tag).toEqual("yolo");
     })
   })
 
