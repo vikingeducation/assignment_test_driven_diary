@@ -5,27 +5,29 @@ describe('When we make a diary entry', function() {
 
   beforeEach(function() {
     diary = new Diary();
-    d = new Date().toString();
+    d = diary.getFormattedDate()
   });
 
   it('adds an entry to current diary with date appended', function() {
-    expect(diary.entry(`Brad is everything to me!`)).toBe(
-      `Brad is everything to me!`
-    );
+    expect(diary.entry(`Brad is everything to me!`)).toEqual({
+      body: 'Brad is everything to me!',
+      date: `${d}`
+    });
   });
 
   it('adds an entry to current diary with a date argument', function() {
     var d = 'January at 4PM';
-    expect(diary.entry(`Brad is everything to me!`, d)).toBe(
-      `Brad is everything to me! ~Written on January at 4PM`
-    );
+    expect(diary.entry(`Brad is everything to me!`, d)).toEqual({
+      body: 'Brad is everything to me!',
+      date: 'January at 4PM'
+    });
   });
 });
 
 describe('When we want to view diary entries', function() {
   beforeEach(function() {
     diary = new Diary();
-    d = new Date().toString();
+    d = diary.getFormattedDate()
     diary.entry("I'm standing outside Brad's house #yolo");
     diary.entry("I'm at Brad's window #yolo");
     diary.entry('OMG. What have I done? #sorrynotsorry');
@@ -33,24 +35,30 @@ describe('When we want to view diary entries', function() {
 
   it('should return all entries', function() {
     expect(diary.entries()).toEqual([
-      `I'm standing outside Brad's house #yolo`,
-      `I'm at Brad's window #yolo`,
-      `OMG. What have I done? #sorrynotsorry`
+      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
+      {body: `I'm at Brad's window #yolo`, date: `${d}`},
+      {body: `OMG. What have I done? #sorrynotsorry`, date: `${d}`},
     ]);
   });
 
-  it('should return all tags', function() {
+  it('we can see all tags', function() {
     expect(diary.tags()).toEqual(['yolo', 'sorrynotsorry']);
   });
 
   it('should return every entry with given tag', function() {
     expect(diary.entriesWithTag('yolo')).toEqual([
-      `I'm standing outside Brad's house #yolo ~Written on ${d}`,
-      `I'm at Brad's window #yolo ~Written on ${d}`
+      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
+      {body: `I'm at Brad's window #yolo`, date: `${d}`}
     ]);
   });
 
   it('should return all entries written today', function() {
-    expect(diary.today()).toEqual(['yolo', 'sorrynotsorry']);
+    expect(diary.today()).toEqual([
+      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
+      {body: `I'm at Brad's window #yolo`, date: `${d}`},
+      {body: `OMG. What have I done? #sorrynotsorry`, date: `${d}`},
+    ]);
   });
+
+
 });
