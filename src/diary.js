@@ -1,11 +1,30 @@
-function Diary() {}
+function Diary() {
+  this.entriesLog = []
+}
 
 Diary.prototype.entry = function(entry, customDate) {
-  if (customDate) {
-    return `${entry} ~Written on ${customDate}`;
-  }
   var d = new Date().toString();
-  return `${entry} ~Written on ${d}`;
+  if (customDate) {
+    entry = `${entry} ~Written on ${customDate}`;
+  } else {
+    entry = `${entry} ~Written on ${d}`;
+  }
+
+  this.entriesLog.push(entry)
+  return entry
+
 };
+
+Diary.prototype.entries = function() {
+  return this.entriesLog;
+}
+
+Diary.prototype.tags = function() {
+  this.entriesLog.forEach(entry => {
+    if (entry.match(/#/) {
+      
+    }
+  })
+}
 
 module.exports = Diary;

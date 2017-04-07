@@ -1,16 +1,20 @@
 const Diary = require('../src/diary.js');
 
-beforeEach(function() {
-  var diary = new Diary();
-});
 
 describe('Diary entry', function() {
+  let diary, d;
+
+  beforeEach(function() {
+    diary = new Diary();
+    d = new Date().toString()
+  });
+  
   it('adds an entry to current diary with date appended', function() {
-    var d = new Date().toString();
     expect(diary.entry(`Brad is everything to me!`)).toBe(
       `Brad is everything to me! ~Written on ${d}`
     );
   });
+  
   it('may take a date argument', function() {
     var d = 'January at 4PM';
     expect(diary.entry(`Brad is everything to me!`, d)).toBe(
@@ -18,18 +22,25 @@ describe('Diary entry', function() {
     );
   });
 
-  it('diary.entry to return all entries', function() {
+  it('diary.entries to return all entries', function() {
     diary.entry('I love cats!');
     diary.entry('Now I hate cats :(');
     diary.entry('Horses are soooo cute');
-
-    //array of entries
-    expect(diary.entries()).toBe(``);
+    expect(diary.entries()).toEqual([
+      `I love cats! ~Written on ${d}`,
+      `Now I hate cats :( ~Written on ${d}`,
+      `Horses are soooo cute ~Written on ${d}`
+    ]);
   });
+
+  it('should return all tags with diary.tags', function() {
+    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm at Brad's window #yolo");
+    diary.entry("OMG. What have I done? #sorrynotsorry");
+    expect(diary.tags()).toEqual([
+      'yolo',
+      'sorrynotsorry'
+    ])
+  })
 });
 
-// describe('Pangram()', function() {
-//   it('empty sentence', function() {
-//     var pangram = new Pangram('');
-//     expect(pangram.isPangram()).toBe(false);
-//   });
