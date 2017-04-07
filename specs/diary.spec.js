@@ -1,9 +1,19 @@
-var Diary = require('../lib/diary');
+var Diary = require("../lib/diary");
 
 describe("Diary", function() {
   var diary = new Diary();
 
-  it("says in the diary", function() {
-    expect(diary.entry("a","b")).toEqual("in the diary");
+  beforeEach(function() {
+    diary.stored = ["this is the only entry"];
+  });
+
+  it("Two params entered in diary", function() {
+    expect(diary.entry("a", "b")).toEqual("a - b");
+  });
+  it("Single param entered in diary", function() {
+    expect(diary.entry("a")).toEqual(`a - ${Date.now()}`);
+  });
+  xit("display single entry from diary", function() {
+    expect(diary.entries()).toEqual();
   });
 });
