@@ -1,8 +1,7 @@
 class Diary {
-
   constructor() {
-    this.entriesLog = []
-  };
+    this.entriesLog = [];
+  }
 
   entry(entry, customDate) {
     var date = new Date().toString();
@@ -13,24 +12,26 @@ class Diary {
       entry = `${entry} ~Written on ${date}`;
     }
 
-    this.entriesLog.push(entry)
-    return entry
+    this.entriesLog.push(entry);
+    return entry;
+  }
 
-  };
-  
   entries() {
     return this.entriesLog;
-  };
+  }
 
   tags() {
-    tagsList = []
+    let tagsList = [];
     this.entriesLog.forEach(entry => {
-      entry = entry.match(/#\w+/)
-      //stopping point
-      }
-    })
-  };
+      entry = entry.match(/#\w+/);
+      entry = entry[0].substring(1);
 
+      if (!tagsList.includes(entry)) {
+        tagsList.push(entry);
+      }
+    });
+    return tagsList;
+  }
 }
 
 module.exports = Diary;
