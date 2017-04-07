@@ -1,10 +1,16 @@
-const redis = require("redis");
-const redisClient = redis.createClient();
-
-var Diary = function() {}
+let entriesArr = [];
 
 
+class Diary {
+
+  entry = function(message) {
+
+  }
+
+}
 
 
 
-module.exports = Diary;
+
+
+module.exports = {entriesArr, Diary};

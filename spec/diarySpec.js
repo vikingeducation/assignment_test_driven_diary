@@ -1,11 +1,11 @@
-var Diary = require('../diary.js');
+var {Diary, entriesArr} = require('../diary.js');
 var diary = new Diary();
 
-describe("creates an entry", function() {
-	// grab current keys using before
-	// var keys = ?;
-	it("adds entry to redis", function() {
 
-		expect(currentKeys === keys + 1)
+describe("creates an entry", function() {
+
+	it("adds entry to redis", function() {
+    var latestEntry = entriesArr[entriesArr.length - 1]
+		expect()
 	})
 })
