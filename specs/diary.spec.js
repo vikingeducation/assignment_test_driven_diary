@@ -8,10 +8,16 @@ describe("Diary", function() {
   it("calling entry adds an entry to the users Diary", function() {
     expect(diary.entry("a").length).toEqual(1);
   });
-  it("Calling entry() with single param will result in a return array length 1", function() {
+  it("calling entry with a date adds an entry to the users Diary", function() {
     expect(diary.entry("a", "adsf").length).toEqual(1);
   });
-  xit("display single entry from diary", function() {
-    expect(diary.entries()).toEqual();
+
+  it("adding a hashtag should add the tag to an entry", function() {
+    expect(diary.entry('abc #123')[0].tags).toEqual(['#123']);
   });
+
+  it(".entries should return a list of all entries.", function() {
+    expect(diary.entries().length).toBeDefined();
+  });
+
 });
