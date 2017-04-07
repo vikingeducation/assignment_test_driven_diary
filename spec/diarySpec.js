@@ -46,9 +46,10 @@ describe('Tag functions', function() {
     expect(diary.tags()).toEqual(['yolo', 'sorrynotsorry']);
   });
 
-  it(
-    'should return every entry with given tag using diary.entriesWithTag'
-  ), function() {
-    expect(diary.entriesWithTag('yolo')).toEqual([]);
-  };
+  it('should return every entry with given tag using diary.entriesWithTag', function() {
+    expect(diary.entriesWithTag('yolo')).toEqual([
+      `I'm standing outside Brad's house #yolo ~Written on ${d}`,
+      `I'm at Brad's window #yolo ~Written on ${d}`
+    ]);
+  });
 });
