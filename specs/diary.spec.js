@@ -88,8 +88,8 @@ describe("Diary", function() {
     diary.entry("Brad is a dreamboat.");
     diary.entry("My dad is sooo annoying.");
     diary.save(path);
-    let saveEntries = diary.entries();
-    let entries = diary.load(path);
-    expect(entries).toEqual(true);
+    let savedEntries = diary.entries();
+    let loadedEntries = diary.load(path);
+    expect(loadedEntries).toEqual(savedEntries);
   });
 });
