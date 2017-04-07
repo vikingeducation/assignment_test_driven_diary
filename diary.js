@@ -74,6 +74,14 @@ class Diary {
     return messagesThatMatch;
   }
 
+  save(fileDest) {
+    var jsonData = require(`./${fileDest}`);
+    this._entries.forEach((entry) => {
+      jsonData.entries.push(entry);
+    });
+    fs.writeFileSync('./${fileDest}', JSON.stringify(jsonData, null, 2))
+  }
+
 
 }
 

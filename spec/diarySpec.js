@@ -1,5 +1,6 @@
 var {Diary} = require('../diary.js');
 var diary;
+const fs = require('fs');
 
 
 describe("Diary", function() {
@@ -109,8 +110,10 @@ describe("Diary", function() {
   });
 
   describe("save and load files", function() {
+
     it("saves current entries to file", function() {
-      fs.readFileSync
+      diary.save('testDiary.json');
+      
     })
   })
 
