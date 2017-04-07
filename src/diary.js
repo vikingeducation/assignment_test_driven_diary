@@ -4,16 +4,20 @@ class Diary {
   }
 
   entry(entry, customDate) {
-    var date = new Date().toString();
+    var newEntry = {};
 
     if (customDate) {
-      entry = `${entry} ~Written on ${customDate}`;
+      newEntry['entry'] = entry;
+      newEntry['date'] = customDate;
     } else {
-      entry = `${entry} ~Written on ${date}`;
+      var d = newDate();
+      var date = d.getDate() + '/' + d.getMonth() + '/' + d.getYear();
+      newEntry['entry'] = entry;
+      newEntry['date'] = date;
     }
 
-    this.entriesLog.push(entry);
-    return entry;
+    this.entriesLog.push(newEntry);
+    return newEntry.entry;
   }
 
   entries() {
@@ -22,28 +26,27 @@ class Diary {
 
   //Begin tag functions
   getTags() {
-    let tagsList = []
+    let tagsList = [];
     this.entriesLog.forEach(entry => {
       entry = entry.match(/#\w+/);
       entry = entry[0].substring(1);
       tagsList.push(entry);
-    })
-    return tagsList
+    });
+    return tagsList;
   }
 
   tags() {
-    let tags = []
-    let tagsList = this.getTags()
+    let tags = [];
+    let tagsList = this.getTags();
     //Filters duplicates
     tagsList.forEach(tag => {
       if (!tags.includes(tag)) {
         tags.push(tag);
       }
-    })
+    });
 
     return tags;
   }
-
 
   entriesWithTag(tag) {
     let entriesWithTags = [];
@@ -51,12 +54,13 @@ class Diary {
     this.entriesLog.forEach(entry => {
       let tagMatch = entry.match(/#\w+/);
       if (tagMatch[0].substring(1) === tag) {
-        entriesWithTags.push(entry)
+        entriesWithTags.push(entry);
       }
-    })
-    return entriesWithTags
+    });
+    return entriesWithTags;
   }
 
+  today() {}
 }
 
 module.exports = Diary;
