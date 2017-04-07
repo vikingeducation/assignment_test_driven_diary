@@ -7,16 +7,15 @@ var Year = function(year) {
 };
 
 Year.prototype.isLeap = function() {
-  console.log("------" + this.year);
-  if (this.year % 4 === 0) {
-    return true;
+  if (this.year % 4 === 0){
+    if(this.year % 100 === 0 && this.year % 400 !== 0){
+      return false
+    } else {
+      return true
+    }
   } else {
-    return false;
+    return false
   }
 };
-
-var year = new Year(2015);
-console.log(year);
-console.log(year.isLeap());
 
 module.exports = Year;
