@@ -78,4 +78,24 @@ describe("Diary", () => {
       expect(diary.entriesWithTag("smartypants").length).toEqual(1);
     });
   });
+
+  describe(".today", () => {
+    // test 9
+    it("returns entries within the past 24 hours", () => {
+      diary.entry("Yes", Date.now());
+      diary.entry("No", Date.now() - 86400001);
+      expect(diary.today()[0].text).toEqual("Yes");
+      expect(diary.today().length).toEqual(1);
+    });
+  });
+
+  describe(".date", () => {
+    // test 10
+    it("returns entries on that date", () => {
+      diary.entry("Yes", Date.parse('4/7/2017'));
+      diary.entry("No", Date.parse('4/6/2017'));
+      expect(diary.date(Date.parse('4/7/2017'))[0].text).toEqual("Yes");
+      expect(diary.date(Date.parse('4/7/2017')).length).toEqual(1);
+    });
+  });
 });
