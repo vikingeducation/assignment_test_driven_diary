@@ -1,8 +1,5 @@
-var Diary = require("../lib/diary");
-
 describe("Diary", function() {
-  var diary = new Diary();
-
+  var diary = require("../lib/diary");
   beforeEach(function() {
     diary.stored = ["this is the only entry"];
   });

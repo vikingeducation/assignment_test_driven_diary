@@ -1,3 +1,3 @@
 var diary = require('./lib/diary');
 
-diary.entry();
+diary.entry('hellllooooooo');
