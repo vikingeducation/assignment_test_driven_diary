@@ -1,5 +1,6 @@
 describe("Diary", function() {
   const Diary = require("../lib/diary");
+  const fs = require("fs");
   var diary;
   beforeEach(function() {
     diary = new Diary();
@@ -59,23 +60,36 @@ describe("Diary", function() {
     diary.entry("Post 4", "2010-10-10");
 
     let date = Date.parse("10/10/10");
-    expect(diary.date(date)).toEqual([
-      "Post 3",
-      "Post 4"
-    ]);
+    expect(diary.date(date)).toEqual(["Post 3", "Post 4"]);
   });
 
   it(".search should return a list of all notes with the given string.", function() {
     diary.entry("Today, Brad accidentally touched my hand in the hallway.");
     diary.entry("Brad is a dreamboat.");
     diary.entry("My dad is sooo annoying.");
-
-    expect(diary.search('Brad')).toEqual([
+    expect(diary.search("Brad")).toEqual([
       "Today, Brad accidentally touched my hand in the hallway.",
       "Brad is a dreamboat."
     ]);
   });
 
+  it(".save should persist the current state of the diary the given file.", function() {
+    let path = "../data/diaryUpdated.json";
+    diary.entry("Brad is a dreamboat.");
+    diary.entry("My dad is sooo annoying.");
+    diary.save(path);
+    let fileExists = fs.existsSync(path);
+    expect(fileExists).toEqual(true);
+    fs.unlinkSync(path);
+  });
 
-  //
+  it(".load should load the the diary object with the entries stored in the given file", function() {
+    let path = "../data/diaryUpdated.json";
+    diary.entry("Brad is a dreamboat.");
+    diary.entry("My dad is sooo annoying.");
+    diary.save(path);
+    let saveEntries = diary.entries();
+    let entries = diary.load(path);
+    expect(entries).toEqual(true);
+  });
 });
