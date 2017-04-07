@@ -5,7 +5,7 @@ describe('When we make a diary entry', function() {
 
   beforeEach(function() {
     diary = new Diary();
-    d = diary.getFormattedDate()
+    d = diary.getFormattedDate();
   });
 
   it('adds an entry to current diary with date appended', function() {
@@ -27,17 +27,17 @@ describe('When we make a diary entry', function() {
 describe('When we want to view diary entries', function() {
   beforeEach(function() {
     diary = new Diary();
-    d = diary.getFormattedDate()
+    d = diary.getFormattedDate();
     diary.entry("I'm standing outside Brad's house #yolo");
     diary.entry("I'm at Brad's window #yolo");
-    diary.entry('OMG. What have I done? #sorrynotsorry');
+    diary.entry('OMG. What have I done? #sorrynotsorry', '04/03/2017');
   });
 
   it('should return all entries', function() {
     expect(diary.entries()).toEqual([
-      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
-      {body: `I'm at Brad's window #yolo`, date: `${d}`},
-      {body: `OMG. What have I done? #sorrynotsorry`, date: `${d}`},
+      { body: `I'm standing outside Brad's house #yolo`, date: `${d}` },
+      { body: `I'm at Brad's window #yolo`, date: `${d}` },
+      { body: `OMG. What have I done? #sorrynotsorry`, date: `04/03/2017` }
     ]);
   });
 
@@ -47,18 +47,44 @@ describe('When we want to view diary entries', function() {
 
   it('should return every entry with given tag', function() {
     expect(diary.entriesWithTag('yolo')).toEqual([
-      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
-      {body: `I'm at Brad's window #yolo`, date: `${d}`}
+      { body: `I'm standing outside Brad's house #yolo`, date: `${d}` },
+      { body: `I'm at Brad's window #yolo`, date: `${d}` }
     ]);
   });
 
   it('should return all entries written today', function() {
     expect(diary.today()).toEqual([
-      {body: `I'm standing outside Brad's house #yolo`, date: `${d}`},
-      {body: `I'm at Brad's window #yolo`, date: `${d}`},
-      {body: `OMG. What have I done? #sorrynotsorry`, date: `${d}`},
+      { body: `I'm standing outside Brad's house #yolo`, date: `${d}` },
+      { body: `I'm at Brad's window #yolo`, date: `${d}` }
     ]);
   });
 
+  it('should return all entries written on given date', function() {
+    expect(diary.date('04/03/2017')).toEqual([
+      { body: `OMG. What have I done? #sorrynotsorry`, date: `04/03/2017` }
+    ]);
+  });
 
+  it('should return all entries containing given string'), function() {
+    expect(diary.search('Brad')).toEqual([
+      { body: `I'm standing outside Brad's house #yolo`, date: `${d}` },
+      { body: `I'm at Brad's window #yolo`, date: `${d}` }
+    ]);
+  };
 });
+
+describe('When we want to manage data', function() {
+  const fs = require("fs");
+
+  beforeEach(function() {
+    diary = new Diary();
+    d = diary.getFormattedDate();
+    diary.entry("I'm standing outside Brad's house #yolo");
+  });
+
+  it('should save all current entries to a provided location', function() {
+    diary.save('./data/diary.json')
+
+    expect(fs.readFileSync('./data/diary.json')).toBe(`{ body: \`I'm standing outside Brad's house #yolo\`, date: ${d}}``);
+  })
+}

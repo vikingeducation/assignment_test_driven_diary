@@ -1,15 +1,14 @@
 class Diary {
-
   constructor() {
     this.entriesLog = [];
   }
 
   getFormattedDate() {
-      var todayTime = new Date();
-      var month = todayTime.getMonth() + 1
-      var day = todayTime.getDate()
-      var year = todayTime.getFullYear()
-      return month + "/" + day + "/" + year;
+    var todayTime = new Date();
+    var month = todayTime.getMonth() + 1;
+    var day = todayTime.getDate();
+    var year = todayTime.getFullYear();
+    return month + '/' + day + '/' + year;
   }
 
   entry(entry, customDate) {
@@ -38,7 +37,7 @@ class Diary {
       let tagMatch = entry.body.match(/#\w+/);
       let tag = tagMatch[0].substring(1);
       tagsList.push(tag);
-    })
+    });
     return tagsList;
   }
 
@@ -68,14 +67,29 @@ class Diary {
   }
 
   today() {
-    todaysEntries = [];
-    todaysDate = this.getFormattedDate()
+    let todaysDate = this.getFormattedDate();
+    return this.date(todaysDate);
+  }
+
+  date(requestedDate) {
+    let requestedDateEntries = [];
     this.entriesLog.forEach(entry => {
-      if (entry.date === todaysDate) {
-        todaysEntries.push(entry);
+      if (entry.date === requestedDate) {
+        requestedDateEntries.push(entry);
       }
-    })
-    return todaysEntries;
+    });
+    return requestedDateEntries;
+  }
+
+  search(query) {
+    let entriesWithQuery = [];
+
+    this.entriesLog.forEach(entry => {
+      if (entry.body.includes(query)) {
+        entriesWithQuery.push(entry);
+      }
+    });
+    return entriesWithQuery;
   }
 }
 
