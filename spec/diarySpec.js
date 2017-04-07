@@ -44,14 +44,14 @@ describe("Diary", function() {
     })
   })
 
-  describe("tags", function() {
+  describe("tags and time", function() {
 
     beforeEach(function() {
       diary.entry("Brad is everything to me. #yolo");
       diary.entry("Brad. Brad. Brad. Brad. Brad. #sorrynotsorry", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
-      diary.entry("Brad is everything to me. #yolo");
+      diary.entry("Brad is everything to me too. #yolo");
       diary.entry("Another one. #anothermsg", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
-      diary.entry("testing 1");
+      diary.entry("testing 1", Date.parse("Fri, 6 Apr 2017"));
       diary.entry("testing 2", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
     })
 
@@ -65,10 +65,35 @@ describe("Diary", function() {
       expect(allTags).toContain('sorrynotsorry');
     })
 
-    it("lists gets all messages with tag", function() {
-      
+    it("gets all messages with tag", function() {
+      var messagesWithTag = diary.entriesWithTag("yolo");
+      expect(messagesWithTag).toContain('Brad is everything to me.')
     })
 
+    it("gets all messages with tag", function() {
+      var messagesWithTag = diary.entriesWithTag("yolo");
+      expect(messagesWithTag.length).toEqual(2);
+    })
+
+    it("gets all messages written today", function() {
+      var messagesToday = diary.today();
+      expect(messagesToday).toContain("Brad is everything to me too.")
+    })
+
+    it("gets all messages written today", function() {
+      var messagesToday = diary.today();
+      expect(messagesToday.length).toEqual(2);
+    })
+
+    it("returns a list of all entries written on the given date", function() {
+      var messagesOnDate = diary.date(Date.parse("Fri, 6 Apr 2017"));
+      expect(messagesOnDate).toContain("testing 1");
+    })
+
+    it("returns a list of all entries written on the given date", function() {
+      var messagesOnDate = diary.date(Date.parse("Fri, 6 Apr 2017"));
+      expect(messagesOnDate.length).toEqual(1);
+    })
 
   })
 
