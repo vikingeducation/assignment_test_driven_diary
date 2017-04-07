@@ -1,0 +1,1 @@
+const diary = require("../src/diary.js")
