@@ -27,7 +27,12 @@ describe("Diary", function() {
       expect(latestEntry).toEqual({"message": "Brad. Brad. Brad. Brad. Brad.", 'date': Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")});
     })
 
-    
+    it("adds entry with tag", function() {
+      diary.entry("I'm standing outside Brad's house #yolo", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
+      var latestEntry = diary._entries[0];
+      expect(latestEntry).toEqual({ 'message': "I'm standing outside Brad's house", 'date': Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"), 'tag': "yolo"});
+
+    })    
   })
 
   describe("listing entries", function() {
@@ -37,6 +42,34 @@ describe("Diary", function() {
       var allEntries = diary.entries();
       expect(allEntries.length).toEqual(diary._entries.length);
     })
+  })
+
+  describe("tags", function() {
+
+    beforeEach(function() {
+      diary.entry("Brad is everything to me. #yolo");
+      diary.entry("Brad. Brad. Brad. Brad. Brad. #sorrynotsorry", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
+      diary.entry("Brad is everything to me. #yolo");
+      diary.entry("Another one. #anothermsg", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
+      diary.entry("testing 1");
+      diary.entry("testing 2", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))
+    })
+
+    it("lists all tags", function() {
+      var allTags = diary.tags();
+      expect(allTags).toContain('yolo');
+    })
+
+    it("lists all tags", function() {
+      var allTags = diary.tags();
+      expect(allTags).toContain('sorrynotsorry');
+    })
+
+    it("lists gets all messages with tag", function() {
+      
+    })
+
+
   })
 
 })
