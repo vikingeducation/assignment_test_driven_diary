@@ -103,7 +103,7 @@ describe('Diary', () => {
   it('should save the diary to a file', () => {
     diary.entry("I wonder if I can meet these mudmen within my studies soon.");
     diary.save("./.diary");
-    expect(fs.readFileSync(".diary", "utf8")).toEqual('{"Entries":[{"message":"I wonder if I can meet these mudmen within my studies soon.","date":"none"}]}');
+    expect(fs.readFileSync(".diary", "utf8")).toEqual('{"Entries":[{"message":"I wonder if I can meet these mudmen within my studies soon.","date":"none"}],"Tags":{}}');
   });
 
   it('should load a diary with saved entries', () => {
