@@ -1,2 +1,10 @@
-# assignment_test_driven_diary
-Build a command line diary interface, driven and protected by a suite of comprehensive tests.
+# Test-Driven Diary
+
+## Introduction
+This is a simple CLI diary application written using TDD.
+
+## Technologies Used
+Jasmine, Node.js
+
+## Getting Started
+Clone the app, then enter `jasmine-node spec` to run the tests.
