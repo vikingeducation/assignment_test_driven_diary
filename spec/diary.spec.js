@@ -1,84 +1,112 @@
-const Diary = require("../lib/diary");
+const Diary = require('../lib/diary');
 
-describe("diary", () => {
-  it("exists and is a constructor", () => {
-    expect(() => {
-      return new Diary();
-    }).not.toThrow();
-  });
+describe('diary', () => {
+	it('exists and is a constructor', () => {
+		expect(() => {
+			return new Diary();
+		}).not.toThrow();
+	});
 
-  const diary = new Diary();
+	const diary = new Diary();
+	describe('entry method', () => {
+		beforeEach(() => {
+			diary.diaryEntries = [];
+		});
+		xit('exists and is a function', () => {
+			expect(Diary.prototype.entry && isFunction(Diary.prototype.entry)).toBe(
+				true
+			);
+		});
 
-  describe("entry method", () => {
-    beforeEach(() => {
-      diary.diaryEntries = [];
-    });
-    it("exists and is a function", () => {
-      expect(Diary.prototype.entry && isFunction(Diary.prototype.entry)).toBe(
-        true
-      );
-    });
+		xit('will not accept an empty string', () => {
+			expect(diary.entry('') && diary.entry(' ')).toBe(false);
+		});
 
-    it("will not accept an empty string", () => {
-      expect(diary.entry("") && diary.entry(" ")).toBe(false);
-    });
+		xit('can successfully add entries', () => {
+			let msg = 'Brad is everything to me.';
+			diary.entry(msg);
+			expect(diary.diaryEntries.some(entry => entry.msg === msg)).toBe(true);
+		});
 
-    it("can successfully add entries", () => {
-      let msg = "Brad is everything to me.";
-      diary.entry(msg);
-      expect(diary.diaryEntries.some(entry => entry.msg === msg)).toBe(true);
-    });
+		xit('creates an entry without an undefined gmtCreated value', () => {
+			let msg = 'Brad is everything to me.';
+			diary.entry(msg);
+			expect(
+				diary.diaryEntries.some(entry => {
+					return entry.msg === msg && entry.gmtCreated !== undefined;
+				})
+			).toBe(true);
+		});
 
-    it("creates an entry without an undefined gmtCreated value", () => {
-      let msg = "Brad is everything to me.";
-      diary.entry(msg);
-      expect(
-        diary.diaryEntries.some(entry => {
-          return entry.msg === msg && entry.gmtCreated !== undefined;
-        })
-      ).toBe(true);
-    });
+		xit('can accept an optional date argument', () => {
+			let msg = 'Brad. Brad. Brad. Brad. Brad.';
+			let gmtCreated = new Date().getTime();
+			diary.entry(msg, gmtCreated);
+			expect(
+				diary.diaryEntries.some(entry => {
+					return entry.msg === msg && entry.gmtCreated === gmtCreated;
+				})
+			).toBe(true);
+		});
 
-    it("can accept an optional date argument", () => {
-      let msg = "Brad. Brad. Brad. Brad. Brad.";
-      let gmtCreated = new Date().getTime();
-      diary.entry(msg, gmtCreated);
-      expect(
-        diary.diaryEntries.some(entry => {
-          return entry.msg === msg && entry.gmtCreated === gmtCreated;
-        })
-      ).toBe(true);
-    });
-    it("creates an entry that guarantees date is a number", () => {
-      let msg = "Brad is everything to me.";
+		xit('creates an entry that guarantees date is a number', () => {
+			let msg = 'Brad is everything to me.';
 
-      diary.entry(msg, "This is not a number");
-      expect(
-        diary.diaryEntries.some(entry => {
-          return entry.msg === msg && Number.isInteger(entry.gmtCreated);
-        })
-      ).toBe(true);
-    });
-  });
+			diary.entry(msg, 'This is not a number');
+			expect(
+				diary.diaryEntries.some(entry => {
+					return entry.msg === msg && Number.isInteger(entry.gmtCreated);
+				})
+			).toBe(true);
+		});
+
+		it('detects if the message has a hash tag and parses it correctly', () => {
+			let msg = "I'm standing outside Brad's house #yolo";
+			diary.entry(msg);
+			// diary.entry("I'm at Brad's window #yolo");
+			// diary.entry('OMG. What have I done? #sorrynotsorry');
+			expect(
+				diary.diaryEntries.some(entry => {
+					return (
+						entry.msg === msg && entry.tag && typeof entry.tag === 'string'
+					);
+				})
+			).toBe(true);
+		});
+
+		afterEach(() => {
+			diary.diaryEntries = [];
+		});
+	});
+
+	describe('entries method', () => {
+		beforeEach(() => {
+			diary.diaryEntries = [];
+		});
+
+		xit('should return a list of all entries', () => {
+			diary.entry('An entry one');
+			diary.entry('An entry two');
+			diary.entry('An entry three');
+			diary.entry('An entry four');
+			diary.entry('An entry five');
+			expect(
+				Array.isArray(diary.diaryEntries) && diary.diaryEntries.length === 5
+			).toBe(true);
+		});
+
+		afterEach(() => {
+			diary.diaryEntries = [];
+		});
+	});
+
+	describe('tags method', () => {});
 });
 
 function isFunction(x) {
-  return Object.prototype.toString.call(x) == "[object Function]";
+	return Object.prototype.toString.call(x) == '[object Function]';
 }
 
-// diary.entry("Brad is everything to me.");
-
-// diary.entry("<3 Braaaad <3");
-// // .entry adds an entry to the user's diary.
-// // each note should contain the time/date of its creation.
-//
-// diary.entry(
-//   "Brad. Brad. Brad. Brad. Brad.",
-//   Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-// );
-// // .entry may take an optional date argument, which will be set
-// // as its time of creation
-//
 // diary.entries();
 // // .entries should return a list of all entries.
 //
