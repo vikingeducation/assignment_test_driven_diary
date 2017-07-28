@@ -2,7 +2,6 @@
 const Diary = require('./lib/diary');
 const diary = new Diary();
 const path = './.data';
-
 let args = process.argv.slice(2, process.argv.length);
 let command = args[0].toLowerCase();
 
