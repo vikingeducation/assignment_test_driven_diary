@@ -2,7 +2,8 @@
 const Diary = function() {
   this.diary = [];
 
-  const entry = function(message, date) {
+  this.entry = function(message, date) {
+    if(typeof message !== String) throw new Error("First param must be string");
     date = date || Date.now();
 
     let diaryEntry = {
@@ -10,6 +11,7 @@ const Diary = function() {
       date
     }
     this.diary.push(diaryEntry);
+    return diaryEntry;
   }
 }
 
