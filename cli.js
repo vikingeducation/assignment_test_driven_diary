@@ -1,3 +1,1 @@
-const { entry } = require("./lib/diary");
-
-entry("hello world");
+const { tags } = require("./lib/diary");
