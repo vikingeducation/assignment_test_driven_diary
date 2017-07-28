@@ -59,3 +59,22 @@ describe("The entries method should", () => {
     expect(diary.entries().length).toEqual(2);
   });
 });
+
+describe("The tags methods should", () => {
+  beforeEach(() => {
+    diary = new Diary("test.json");
+    fs.writeFileSync("./data/test.json", "{}");
+    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm at Brad's window #yolo");
+    diary.entry("OMG. What have I done? #sorrynotsorry");
+  });
+  it("return a list of all of the tags", () => {
+    expect(diary.tags().length).toEqual(2);
+    expect(Array.isArray(diary.tags())).toBeTruthy();
+    console.log(diary.tags()[0]);
+    expect(typeof diary.tags()[0] === "string").toBeTruthy();
+  });
+  it("return a list of entries with a given tag", () => {
+    expect(diary.entriesWithTag("yolo").length).toEqual(2);
+  });
+});
