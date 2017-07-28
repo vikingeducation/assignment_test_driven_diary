@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/KaraThrash/assignment_test_driven_diary/issues"
   },
-  "homepage": "https://github.com/KaraThrash/assignment_test_driven_diary#readme"
+  "homepage": "https://github.com/KaraThrash/assignment_test_driven_diary#readme",
+  "dependencies": {}
 }
