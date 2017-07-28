@@ -28,6 +28,26 @@ const Diary = function() {
     });
     return hashWords;
   };
+
+  this.entriesWithTag = function(tag) {
+    let tagEntries = [];
+    this.diary.forEach((entry) => {
+      if(entry.message.includes(`${tag}`)) tagEntries.push(entry);
+    })
+    return tagEntries;
+  }
+
+  this.date = function(date) {
+    let dateEntries = [];
+    this.diary.forEach((entry) => {
+      if(entry.date === date) dateEntries.push(entry);
+    })
+    return dateEntries;
+  }
+
+  this.today = function() {
+    return this.date(Date.now());
+  }
 };
 
 module.exports = Diary;

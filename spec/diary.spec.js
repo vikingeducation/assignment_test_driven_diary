@@ -1,5 +1,6 @@
 const Diary = require("../diary");
 
+
 describe("Entries entry method", () => {
   beforeEach(function() {
     diary = new Diary();
@@ -61,12 +62,7 @@ describe("Entries method", () => {
       expect(entry.date).toEqual(diary.diary[index].date);
     });
   });
-});
-
-describe("Tags method", () => {
-  let diary = new Diary();
-  beforeEach(() => {
-    diary.diary = [
+});beforeEach()iary.diary = [
       {
         message: "Brad is to me #yolo",
         date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
@@ -86,18 +82,120 @@ describe("Tags method", () => {
   });
 });
 
-//
-// //diary.tags();
-// xit("", function() {
-//   const result = Entries.entry(
-//     "I love Brad",
-//     Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-//   );
-//   expect(result).toBeDefined();
-// });
-// ///???
-//
-// //?????????
+
+describe("entriesWithTag method", () => {
+  let diary = new Diary();
+  beforeEach(() => {
+    diary.diary = [
+      {
+        message: "Brad is to me #yolo",
+        beforeEach()
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #yolo",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      }
+    ];
+  });
+
+  it("returns only the entries that have tags", () => {
+    let tag = "yolo";
+    let diaryYolo = [
+      {
+        message: "Brad is to me #yolo",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #yolo",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      }
+    ];
+
+    let result = diary.entriesWithTag(tag);
+    result.forEach((entry, index) => {
+      expect(entry.message).toEqual(diaryYolo[index].message);
+      expect(entry.date).toEqual(diaryYolo[index].date);
+    })
+  })
+})
+
+describe("date method", () => {
+  let diary = new Diary();
+  beforeEach(() => {
+    diary.diary = [
+      {
+        message: "Brad is to me #yolo",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #yolo",
+        date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+      }
+    ];
+  });
+
+  it("return entries from a specified date", () => {
+    let date = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT");
+    let result = diary.date(date);
+
+    result.forEach((entry, index) => {
+      expect(entry.message).toEqual(result[index].message);
+      expect(entry.date).toEqual(result[index].date);
+    })
+  })
+})
+
+describe("today method", () => {
+  let diary = new Diary();
+  beforeEach(() => {
+    diary.diary = [
+      {
+        message: "Brad is to me #yolo",
+        date: Date.now()
+      },
+      {
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #yolo",
+        date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
+      },
+      {
+        message: "I'm standing outside Brad's house #MarryPoppins",
+        date: Date.now()
+      }
+    ];
+  });
+
+  it("return entries from today", () => {
+    let result = diary.today();
+    result.forEach((entry, index) => {
+      expect(entry.message).toEqual(result[index].message);
+      expect(entry.date).toEqual(result[index].date);
+    })
+  })
+})
+
+describe("search method", () => {
+  beforeEach()
+})
+
+
 // describe("entry saves an entry into the diary", function() {
 //   xit("entry saves an entry into the diary", function() {
 //     const result = Entries.entry(
@@ -119,35 +217,5 @@ describe("Tags method", () => {
 //       Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
 //     );
 //     expect(result).match("I love Brad");
-//   });
-// });
-//
-// describe("Anagrams", () => {
-//   let anagrams;
-//
-//   beforeEach(function() {
-//     anagrams = new Anagrams(["coat", "seats", "easts", "sates", "dog"]);
-//   });
-//
-//   describe(".find", () => {
-//     it("returns the anagrams for the word taco", function() {
-//       const results = anagrams.find("taco");
-//       expect(results).toEqual(["coat"]);
-//     });
-//
-//     it("returns the anagrams for the given word", function() {
-//       const results = anagrams.find("asset");
-//       expect(results).toEqual(["easts", "sates", "seats"]);
-//     });
-//
-//     it("returns nothing when no anagrams exist", function() {
-//       const results = anagrams.find("zxzxzxzx");
-//       expect(results).toEqual([]);
-//     });
-//
-//     it("returns the anagrams for the given WoRd", function() {
-//       const results = anagrams.find("TaCo");
-//       expect(results).toEqual(["coat"]);
-//     });
 //   });
 // });
