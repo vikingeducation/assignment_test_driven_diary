@@ -1,17 +1,57 @@
-const Diary = require("../lib/diary");
+const Diary = require('../lib/diary');
 
-describe("diary module", () => {
-  it("user entry for diary", () => {
-    expect(() => {
-      return new Diary();
-    }).not.toThrow();
-  });
-  describe("Contains correct methods", () => {
-    it("contains entry method", () => {
-      expect(Diary.prototype.entry).toBeTruthy();
-    });
-  });
+describe('diary', () => {
+	it('exists and is a constructor', () => {
+		expect(() => {
+			return new Diary();
+		}).not.toThrow();
+	});
+
+	const diary = new Diary();
+
+	describe('entry method', () => {
+		it('exists and is a function', () => {
+			expect(Diary.prototype.entry && isFunction(Diary.prototype.entry)).toBe(
+				true
+			);
+		});
+
+		it('will not accept an empty string', () => {
+			expect(diary.entry('') && diary.entry(' ')).toBe(false);
+		});
+
+		it('can successfully add entries', () => {
+			let msg = 'Brad is everything to me.';
+			diary.entry(msg);
+			expect(diary.diaryEntries.some(entry => entry.msg === msg)).toBe(true);
+		});
+
+		xit('creates an entry without an undefined gmtCreated value', () => {
+			let msg = 'Brad is everything to me.';
+			diary.entry(msg);
+			expect(
+				diary.diaryEntries.some(entry => {
+					return entry.msg === msg && entry.gmtCreated !== undefined;
+				})
+			).toBe(true);
+		});
+
+		xit('can accept an optional date argument', () => {
+			let msg = 'Brad. Brad. Brad. Brad. Brad.';
+			let gmtCreated = new Date().getTime();
+			diary.entry(msg, gmtCreated);
+			expect(
+				diary.diaryEntries.some(entry => {
+					return entry.msg === msg && entry.gmtCreated === gmtCreated;
+				})
+			).toBe(true);
+		});
+	});
 });
+
+function isFunction(x) {
+	return Object.prototype.toString.call(x) == '[object Function]';
+}
 
 // diary.entry("Brad is everything to me.");
 
