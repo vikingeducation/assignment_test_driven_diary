@@ -1,4 +1,4 @@
-const dummyData = {
+const dummyDiary = {
 	entries: {
 		1: "lolol Brad #heartemoji #brad",
 		2: "8) #brad",
@@ -18,6 +18,32 @@ const dummyData = {
 	}
 }
 
+const newEntry = {entry: "I luv uuuuuu #brad",
+												tags: ["brad"],
+												id: "4"}
+
+const updatedDummyDiary = {
+	entries: {
+		1: "lolol Brad #heartemoji #brad",
+		2: "8) #brad",
+		3: "I'm at your windooooooooooow #juststalkerthings #brad",
+		4: "I luv uuuuuu #brad"
+	},
+
+	tags: {
+		heartemoji: ["1"],
+		brad: ["1", "2", "3", "4"],
+		juststalkerthings: ["3"]
+	},
+
+	dates: {
+		1501272599: ["1"],
+		1501272665: ["2"],
+		1501272682: ["3"],
+		/^\d{2}:\d{2}:[\d]{4}-\d{2}:\d{2}/: ["4"]
+	}
+}
+
 describe("Diary", () => {
 
 	describe("diary loading", () => {
@@ -26,56 +52,70 @@ describe("Diary", () => {
 		})
 
 		it("should load the diary from a file", () => {
-			let loadedData = diary.load("../diaries/testDiary");
+			let loadedDiary = diary.load("../diaries/testDiary");
 
-			expect(loadedData).toEqual(dummyData);
+			expect(loadedDiary).toEqual(dummyDiary);
 		});
 
 
 		afterEach(() => {
-			//delete diary
+			let diary = dummyDiary
 		})
 
 	});
 
 	describe("diary entry creation" () => {
 		beforeEach(() => {
-			//create diary
+			let entry = diary.entry("I luv uuuuuu #brad")
+			let updatedDiary = diary.insertEntry(entry);
 		})
 
-		it("should create an entry by id", () => {
-			let entry = diary.entry("I luv uuuuuu #brad")
-
-			let newEntry = {entry: "I luv uuuuuu #brad",
-															tags: ["brad"],
-															id: "4"}
+		it("should parse message into the usable object correctly", () => {
 			expect(entry.entry).toEqual(newEntry.entry)
+		});
+
+		it("should parse tags into the usable object correctly", () => {
 			expect(entry.tags).toEqual(newEntry.tags)
-			expect(entry.date).toMatch(/^\d\d:\d\d:\d\d\d\d-\d\d:\d\d/)
+		});
+
+		it("should parse date into the usable object correctly", () => {
+			expect(entry.date).toMatch(/^\d{2}:\d{2}:[\d]{4}-\d{2}:\d{2}/)
+		});
+
+		it("should parse ID into the usable object correctly", () => {
+			expect(entry.id).toEqual(newEntry.id)
+		});
+
+		it("should insert message into the diary object correctly", () => {
+			expect(updatedDiary.entries).toEqual(updatedDummyDiary.entries)
+		});
+
+		it("should insert tags into the diary object correctly", () => {
+			expect(updatedDiary.tags).toEqual(updatedDummyDiary.tags)
+		});
+
+		it("should insert date into the diary object correctly", () => {
+			expect(updatedDiary.date).toEqual(updatedDummyDiary.date)
 		});
 
 		it("should create each by unique ID", () => {
-
+			let entryCopy = diary.entry("I luv uuuuuu #brad");
+			var  secondEntryUniqueId = "5";
+			expect(entryCopy.id).toEqual(secondEntryUniqueId);
 		})
 
-		it("should create an entry by tags if it has any", () => {
-
-		});
-
 		it("should create all entries as strings", () => {
-
+			expect(typeof entry.entry).toEqual("string");
 		});
 
 		it("should create new tags if they don't already exist", () => {
-
-		});
-
-		it("should create an entry by date", () => {
-
+				let updatedTagDiary = diary.insertEntry(diary.entry("ugh! school tomorrow #ihateschool"));
+				expect(updatedTagDiary.tags.ihateschool).toBe(true);
 		});
 
 		it("should create an entry by a user-specified date", () => {
-
+			let entry = diary.entry("omg im like so tired", "07/13/2017-20:30")
+			expect(entry.date)toEqual("07/13/2017-20:30");
 		});
 
 		it("should accept date parameter in form of 'mm/dd/yyyy-hh:mm' ", () => {
