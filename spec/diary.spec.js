@@ -1,11 +1,26 @@
 describe("Diary", () => {
-	describe("diary loading", () => {
-		it("should load a diary from a file", () => {
 
+	describe("diary loading", () => {
+		beforeEach(() => {
+			//create diary
+		})
+
+		it("should load the diary from a file", () => {
+			const loadedData = diary.load("../diaries/testDiary")
 		});
+
+
+		afterEach(() => {
+			//delete diary
+		})
+
 	});
 
 	describe("diary entry creation" () => {
+		beforeEach(() => {
+			//create diary
+		})
+
 		it("should save an entry by id", () => {
 
 		});
@@ -13,6 +28,10 @@ describe("Diary", () => {
 		it("should save all entries as strings", () => {
 
 		});
+
+		it("should save each by unique ID", () => {
+
+		})
 
 		it("should save an entry by tags if it has any", () => {
 
@@ -30,9 +49,21 @@ describe("Diary", () => {
 
 		});
 
-		it("should should not accept an invalid date", () => {
+		it("should accept date parameter in form of 'mm/dd/yyyy-hh:mm' ", () => {
 
 		});
+
+		it("should accept date parameter in form of 'mm/dd/yyyy' ", () => {
+
+		});
+
+		it("should throw error for any non-accepted date format", () => {
+
+		})
+
+		it("should save entry by date in unix time format", () => {
+
+		})
 
 		it("should create a new entry even if content and date are the same", () => {
 
@@ -41,35 +72,69 @@ describe("Diary", () => {
 		it("should not save a blank entry", () => {
 
 		});
+
+		it("should not save an entry with only white space", () => {
+
+		})
+
+		afterEach(() => {
+			//delete diary & contents
+		})
 	});
 
 	describe("diary searching", () => {
 		beforeEach(() => {
-			// write some data to a diary
+			//create a dairy
+			// write some entries to a diary
 		});
 
 		it("should return a list of all entries", () => {
 
 		});
 
+		it("should notify user if no entries exist in diary", () => {
+
+		})
+
 		it("should return all entries with a certain tag", () => {
 
 		});
 
-		it("should return all tags that have been used", () => {
+		it("should notify user if no entries exist by tag", () => {
+
+		})
+
+		it("should return all existing tags", () => {
 
 		});
+
+		it("should notify user if no tags exist", () => {
+
+		})
 
 		it("should return all entries from the current day", () => {
 
 		});
 
+		it("should notify user if no entries exist from current date", () => {
+
+		})
+
 		it("should return all entries from a given date", () => {
 
 		});
 
-		it("should return all entries containing a search string", () => {
+		it("should notify user if no entries exist for given date", () => {
+
+		})
+
+		it("should reurn all entries containing a user-specified search string", () => {
 
 		});
+
+		afterEach(() => {
+			//delete dairy & contents
+		})
+
 	});
 });
