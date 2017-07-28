@@ -37,9 +37,6 @@ describe("entries with extra params", () => {
   beforeEach(() => {
     diary = new Diary("test.json");
     fs.writeFileSync("./data/test.json", "{}");
-    diary.entry("Brad is everything to me.");
-    let diaryFile = fs.readFileSync("./data/test.json", "utf8");
-    diaryObj = JSON.parse(diaryFile);
   });
   it("accept custom time", function() {
     let date = new Date();
@@ -47,5 +44,18 @@ describe("entries with extra params", () => {
     let diaryFile = fs.readFileSync("./data/test.json", "utf8");
     let diaryObj = JSON.parse(diaryFile);
     expect(diaryObj.entries[0].date).toEqual(date.toString());
+  });
+});
+
+describe("The entries method should", () => {
+  beforeEach(() => {
+    diary = new Diary("test.json");
+    fs.writeFileSync("./data/test.json", "{}");
+    diary.entry("Brad is everything to me.");
+    diary.entry("<3 Braaaad <3");
+  });
+  it("return a list of all of the entries", () => {
+    expect(Array.isArray(diary.entries())).toBeTruthy();
+    expect(diary.entries().length).toEqual(2);
   });
 });
