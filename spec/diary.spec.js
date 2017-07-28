@@ -1,6 +1,99 @@
 const Diary = require("../diary");
 
+describe("Diary", () => {
+  describe("entriesWithTag method", () => {
+    let diary = new Diary();
+    beforeEach(() => {
+      diary.diary = [
+        {
+          message: "Brad is to me #yolo",
+          beforeEach()
+          message: "I'm standing outside Brad's house #MarryPoppins",
+          date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+        },
+        {
+          message: "I'm standing outside Brad's house #yolo",
+          date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+        },
+        {
+          message: "I'm standing outside Brad's house #MarryPoppins",
+          date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+        }
+      ];
 
+
+    });
+
+    describe("date method", () => {
+      let diary = new Diary();
+      beforeEach(() => {
+        diary.diary = [
+          {
+            message: "Brad is to me #yolo",
+            date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+          },
+          {
+            message: "I'm standing outside Brad's house #MarryPoppins",
+            date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
+          },
+          {
+            message: "I'm standing outside Brad's house #yolo",
+            date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
+          },
+          {
+            message: "I'm standing outside Brad's house #MarryPoppins",
+            date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
+          }
+        ];
+      });
+
+      it("return entries from a specified date", () => {
+        let date = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT");
+        let result = diary.date(date);
+
+        result.forEach((entry, index) => {
+          expect(entry.message).toEqual(result[index].message);
+          expect(entry.date).toEqual(result[index].date);
+        })
+      })
+    })
+
+    describe("today method", () => {
+      let diary = new Diary();
+      beforeEach(() => {
+        diary.diary = [
+          {
+            message: "Brad is to me #yolo",
+            date: Date.now()
+          },
+          {
+            message: "I'm standing outside Brad's house #MarryPoppins",
+            date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
+          },
+          {
+            message: "I'm standing outside Brad's house #yolo",
+            date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
+          },
+          {
+            message: "I'm standing outside Brad's house #MarryPoppins",
+            date: Date.now()
+          }
+        ];
+      });
+
+      it("return entries from today", () => {
+        let result = diary.today();
+        result.forEach((entry, index) => {
+          expect(entry.message).toEqual(result[index].message);
+          expect(entry.date).toEqual(result[index].date);
+        })
+      })
+    })
+
+    describe("search method", () => {
+      beforeEach()
+    })
+})
 describe("Entries entry method", () => {
   beforeEach(function() {
     diary = new Diary();
@@ -62,7 +155,9 @@ describe("Entries method", () => {
       expect(entry.date).toEqual(diary.diary[index].date);
     });
   });
-});beforeEach()iary.diary = [
+});
+
+beforeEach()iary.diary = [
       {
         message: "Brad is to me #yolo",
         date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
@@ -83,26 +178,7 @@ describe("Entries method", () => {
 });
 
 
-describe("entriesWithTag method", () => {
-  let diary = new Diary();
-  beforeEach(() => {
-    diary.diary = [
-      {
-        message: "Brad is to me #yolo",
-        beforeEach()
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #yolo",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      }
-    ];
-  });
+
 
   it("returns only the entries that have tags", () => {
     let tag = "yolo";
@@ -125,75 +201,7 @@ describe("entriesWithTag method", () => {
   })
 })
 
-describe("date method", () => {
-  let diary = new Diary();
-  beforeEach(() => {
-    diary.diary = [
-      {
-        message: "Brad is to me #yolo",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #yolo",
-        date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      }
-    ];
-  });
 
-  it("return entries from a specified date", () => {
-    let date = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT");
-    let result = diary.date(date);
-
-    result.forEach((entry, index) => {
-      expect(entry.message).toEqual(result[index].message);
-      expect(entry.date).toEqual(result[index].date);
-    })
-  })
-})
-
-describe("today method", () => {
-  let diary = new Diary();
-  beforeEach(() => {
-    diary.diary = [
-      {
-        message: "Brad is to me #yolo",
-        date: Date.now()
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1776 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #yolo",
-        date: Date.parse("Mon, 25 Dec 1996 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.now()
-      }
-    ];
-  });
-
-  it("return entries from today", () => {
-    let result = diary.today();
-    result.forEach((entry, index) => {
-      expect(entry.message).toEqual(result[index].message);
-      expect(entry.date).toEqual(result[index].date);
-    })
-  })
-})
-
-describe("search method", () => {
-  beforeEach()
-})
 
 
 // describe("entry saves an entry into the diary", function() {

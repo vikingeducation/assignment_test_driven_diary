@@ -48,6 +48,8 @@ const Diary = function() {
   this.today = function() {
     return this.date(Date.now());
   }
+
+
 };
 
 module.exports = Diary;
