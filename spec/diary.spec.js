@@ -1,3 +1,23 @@
+const dummyData = {
+	entries: {
+		1: "lolol Brad #heartemoji #brad",
+		2: "8) #brad",
+		3: "I'm at your windooooooooooow #juststalkerthings #brad"
+	},
+
+	tags: {
+		heartemoji: ["1"],
+		brad: ["1", "2", "3"],
+		juststalkerthings: ["3"]
+	},
+
+	dates: {
+		1501272599: ["1"],
+		1501272665: ["2"],
+		1501272682: ["3"]
+	}
+}
+
 describe("Diary", () => {
 
 	describe("diary loading", () => {
@@ -6,7 +26,9 @@ describe("Diary", () => {
 		})
 
 		it("should load the diary from a file", () => {
-			const loadedData = diary.load("../diaries/testDiary")
+			let loadedData = diary.load("../diaries/testDiary");
+
+			expect(loadedData).toEqual(dummyData);
 		});
 
 
@@ -21,19 +43,26 @@ describe("Diary", () => {
 			//create diary
 		})
 
-		it("should save an entry by id", () => {
+		it("should create an entry by id", () => {
+			let entry = diary.entry("I luv uuuuuu #brad")
 
+			let newEntry = {entry: "I luv uuuuuu #brad",
+															tags: ["brad"],
+															id: "4"}
+			expect(entry.entry).toEqual(newEntry.entry)
+			expect(entry.tags).toEqual(newEntry.tags)
+			expect(entry.date).toMatch(/^\d\d:\d\d:\d\d\d\d-\d\d:\d\d/)
 		});
 
-		it("should save all entries as strings", () => {
-
-		});
-
-		it("should save each by unique ID", () => {
+		it("should create each by unique ID", () => {
 
 		})
 
-		it("should save an entry by tags if it has any", () => {
+		it("should create an entry by tags if it has any", () => {
+
+		});
+
+		it("should create all entries as strings", () => {
 
 		});
 
@@ -41,11 +70,11 @@ describe("Diary", () => {
 
 		});
 
-		it("should save an entry by date", () => {
+		it("should create an entry by date", () => {
 
 		});
 
-		it("should save an entry by a user-specified date", () => {
+		it("should create an entry by a user-specified date", () => {
 
 		});
 
@@ -135,6 +164,11 @@ describe("Diary", () => {
 		afterEach(() => {
 			//delete dairy & contents
 		})
+	});
 
+	describe("diary saving", () => {
+		it("saves the diary object to a json file", () => {
+
+		});
 	});
 });
