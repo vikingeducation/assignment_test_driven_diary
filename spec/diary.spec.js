@@ -40,7 +40,7 @@ const updatedDummyDiary = {
 		1501272599: ["1"],
 		1501272665: ["2"],
 		1501272682: ["3"],
-		/^\d{2}:\d{2}:[\d]{4}-\d{2}:\d{2}/: ["4"]
+		/^\d{10}/: ["4"]
 	}
 }
 
@@ -60,14 +60,13 @@ describe("Diary", () => {
 
 		afterEach(() => {
 			let diary = dummyDiary
-		})
-
+		});
 	});
 
 	describe("diary entry creation" () => {
 		beforeEach(() => {
 			let entry = diary.entry("I luv uuuuuu #brad")
-			let updatedDiary = diary.insertEntry(entry);
+			let updatedDiary = diary.insertEntry(entry, dummyDiary);
 		})
 
 		it("should parse message into the usable object correctly", () => {
@@ -79,7 +78,7 @@ describe("Diary", () => {
 		});
 
 		it("should parse date into the usable object correctly", () => {
-			expect(entry.date).toMatch(/^\d{2}:\d{2}:[\d]{4}-\d{2}:\d{2}/)
+			expect(entry.date).toMatch(/^\d{10}/)
 		});
 
 		it("should parse ID into the usable object correctly", () => {
@@ -115,35 +114,31 @@ describe("Diary", () => {
 
 		it("should create an entry by a user-specified date", () => {
 			let entry = diary.entry("omg im like so tired", "07/13/2017-20:30")
-			expect(entry.date)toEqual("07/13/2017-20:30");
-		});
-
-		it("should accept date parameter in form of 'mm/dd/yyyy-hh:mm' ", () => {
-
+			expect(entry.date)toEqual("1499977800");
 		});
 
 		it("should accept date parameter in form of 'mm/dd/yyyy' ", () => {
-
+			let entry = diary.entry("omg im like so tired", "07/13/2017")
+			expect(entry.date)toEqual("1499904000");
 		});
 
 		it("should throw error for any non-accepted date format", () => {
 
-		})
+			expect(diary.entry("omg im like so tired", "0712017"))toThrow("Invalid Date");
+		});
 
-		it("should save entry by date in unix time format", () => {
-
-		})
-
-		it("should create a new entry even if content and date are the same", () => {
-
+		it("should insert a new entry even if content and date are the same", () => {
+			let updatedDiary = diary.insertEntry(diary.entry("omg im like so tired", "07/13/2017-20:30"), dummyDiary);
+			let updatedDiary = diary.insertEntry(diary.entry("omg im like so tired", "07/13/2017-20:30"), updatedDiary);
+			expect(updateDiary.dates["1499977800"]).toEqual(["5", "6"])
 		});
 
 		it("should not save a blank entry", () => {
-
+			expect(diary.entry("")).toThrow("Invalid entry.");
 		});
 
 		it("should not save an entry with only white space", () => {
-
+			expect(diary.entry("\t\t\t\t   \n")).toThrow("Invalid entry.");
 		})
 
 		afterEach(() => {
@@ -197,7 +192,7 @@ describe("Diary", () => {
 
 		})
 
-		it("should reurn all entries containing a user-specified search string", () => {
+		it("should return all entries containing a user-specified search string", () => {
 
 		});
 
