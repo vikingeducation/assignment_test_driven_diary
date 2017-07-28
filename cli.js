@@ -1,1 +1,3 @@
-const diary = require('./lib/diary');
+const { entry } = require("./lib/diary");
+
+entry("hello world");
