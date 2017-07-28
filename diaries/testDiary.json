@@ -1,0 +1,19 @@
+{
+	"entries": {
+		"1": "lolol Brad #heartemoji #brad",
+		"2": "8) #brad",
+		"3": "I'm at your windooooooooooow #juststalkerthings #brad"
+	},
+
+	"tags": {
+		"heartemoji": ["1"],
+		"brad": ["1", "2", "3"],
+		"juststalkerthings": ["3"]
+	},
+
+	"dates": {
+		"1501272599": ["1"],
+		"1501272665": ["2"],
+		"1501272682": ["3"]
+	}
+}
