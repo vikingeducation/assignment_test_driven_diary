@@ -71,7 +71,6 @@ describe("The tags methods should", () => {
   it("return a list of all of the tags", () => {
     expect(diary.tags().length).toEqual(2);
     expect(Array.isArray(diary.tags())).toBeTruthy();
-    console.log(diary.tags()[0]);
     expect(typeof diary.tags()[0] === "string").toBeTruthy();
   });
   it("return a list of entries with a given tag", () => {
@@ -85,20 +84,25 @@ describe("The date methods should", () => {
     fs.writeFileSync("./data/test.json", "{}");
   });
   it("returns a list of the entries written today", () => {
-    diary.entry("I'm standing outside Brad's house #yolo", new Date(1990, 10));
+    diary.entry(
+      "I'm standing outside Brad's house #yolo",
+      new Date(Date.parse(1990, 10))
+    );
     diary.entry("I'm at Brad's window #yolo");
     diary.entry("OMG. What have I done? #sorrynotsorry");
     expect(diary.today().length).toEqual(2);
     expect(diary.today()[0].text).toEqual("I'm at Brad's window");
   });
   it("returns a list of the entries written on a given day", () => {
-    diary.entry("I'm standing outside Brad's house #yolo", new Date(1990, 10));
-    diary.entry("I'm at Brad's window #yolo", new Date(1990, 10));
+    diary.entry(
+      "I'm standing outside Brad's house #yolo",
+      new Date(Date.parse(1990, 10))
+    );
+    diary.entry("I'm at Brad's window #yolo", new Date(Date.parse(1990, 10)));
     diary.entry("OMG. What have I done? #sorrynotsorry");
-    console.log(diary.date(Date.parse(1990, 10)));
     expect(diary.date(Date.parse(1990, 10)).length).toEqual(2);
     expect(diary.date(Date.parse(1990, 10))[0].text).toEqual(
-      "I'm at Brad's window"
+      "I'm standing outside Brad's house"
     );
   });
 });
