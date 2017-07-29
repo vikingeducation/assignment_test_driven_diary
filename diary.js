@@ -86,7 +86,7 @@ const Diary = function() {
   this.load = function(path) {
     let json = fs.readFileSync(path);
     let diary = JSON.parse(json);
-    this._entries = diary;
+    this._entries = diary || [];
   };
 };
 
