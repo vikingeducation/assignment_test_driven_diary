@@ -62,8 +62,14 @@ const Diary = function() {
   };
   this.date = function(date) {
     let dateEntries = [];
+    //we're assuming that your granularity of time is a day
+    let day = 86400000;
+
     _entries.forEach(entry => {
-      if (entry.date === date) dateEntries.push(entry);
+      // if (entry.date === date) dateEntries.push(entry);
+      if (entry.date + day / 2 > date && date > entry.date - day / 2) {
+        dateEntries.push(entry);
+      }
     });
     return dateEntries;
   };
@@ -86,7 +92,7 @@ const Diary = function() {
   this.load = function(path) {
     let json = fs.readFileSync(path);
     let diary = JSON.parse(json);
-    this._entries = diary;
+    _entries = diary;
   };
 };
 
