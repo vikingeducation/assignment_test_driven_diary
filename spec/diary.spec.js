@@ -90,9 +90,34 @@ describe("entries method", () => {
   });
   it("returns an array of entries", () => {
     let result = diary.entries();
-    //expect(result).toEqual(messages);
     expect(result[0].message).toBe("Brad is to me #yolo");
     expect(result[0].tags[0]).toBe("#yolo");
+  });
+});
+describe("entries tags", () => {
+  beforeEach(() => {
+    diary = new Diary();
+    messages.forEach(entry => {
+      diary.entry(entry.message, entry.date);
+    });
+  });
+  it("returns an array", () => {
+    let result = diary.tags();
+    expect(Array.isArray(result)).toBe(true);
+  });
+  it("correctly parses multiple tags", () => {
+    diary = new Diary();
+    diary.entry("#yolo");
+    //diary.entry("Incorrect Entry#");  //create a separate test for this
+    diary.entry("Brad is my soul #beMine #dope");
+    diary.entry("Brad is life #beMine");
+    let answer = ["#yolo", "#beMine", "#dope"];
+    let result = diary.tags();
+    expect(result.values()).toBe(answer.keys());
+  });
+  xit("returns an array", () => {
+    let result = diary.tags();
+    expect(Array.isArray(result)).toBe(true);
   });
 });
 //

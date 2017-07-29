@@ -21,11 +21,6 @@ const Entry = function(message, date) {
 
 const Diary = function() {
   let _entries = [];
-  // let _entries_proto = [
-  //   {
-  //     message:
-  //   }
-  // ];
 
   this.entry = function(message, date) {
     if (typeof message !== "string") {
@@ -39,18 +34,38 @@ const Diary = function() {
   this.entries = function() {
     return _entries;
   };
-  //old
   this.tags = function() {
-    let hashWords = [];
-    this.diary.forEach(entry => {
-      let entryWords = entry.message.trim().split(" ");
-      for (let i = 0; i < entryWords.length; i++) {
-        if (entryWords[i].includes("#")) {
-          hashWords.push(entryWords[i].slice(1));
+    //iterate over all messages and grab all the tags
+    let uniqueCheck = true;
+    if (!uniqueCheck) {
+      let allTags = [];
+      for (let i = 0; i < _entries.length; i++) {
+        let entry = _entries[i];
+        //allTags.push(_entries[i].tags);
+        //Array.prototype.push.apply(allTags, _entries.tags);
+        for (let j = 0; j < entry.tags.length; j++) {
+          //allTags[entry.tags[j]] = entry.tags[j];
+          allTags.push(entry.tags[j]);
         }
       }
-    });
-    return hashWords;
+    } else {
+      var allTags = {};
+      for (let i = 0; i < _entries.length; i++) {
+        let entry = _entries[i];
+        for (let j = 0; j < entry.tags.length; j++) {
+          allTags[entry.tags[j]] = entry.tags[j];
+        }
+      }
+    }
+    console.log(Object.keys(allTags));
+    let arr = Object.keys(allTags);
+    //console.log(arr);
+    return arr;
+    //console.log(allTags);
+    //let arr = Array.from(allTags.values());
+    //console.log(`arr ${arr}`);
+    //return Array.from(allTags);
+    return allTags;
   };
   //old
   this.entriesWithTag = function(tag) {
