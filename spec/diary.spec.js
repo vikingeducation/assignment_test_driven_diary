@@ -1,193 +1,119 @@
 const Diary = require("../diary");
 
-describe("Diary", () => {
-  let diary = new Diary();
+let diary;
+
+describe("Diary entry method", () => {
   beforeEach(() => {
-    diary.diary = [
-      {
-        message: "Brad is to me #yolo",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #yolo",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      },
-      {
-        message: "I'm standing outside Brad's house #MarryPoppins",
-        date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      }
-    ];
-  });
-  describe("date method", () => {
-    let diary = new Diary();
-
-    it("return entries from a specified date", () => {
-      let date = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT");
-      let result = diary.date(date);
-
-      result.forEach((entry, index) => {
-        expect(entry.message).toEqual(result[index].message);
-        expect(entry.date).toEqual(result[index].date);
-      });
-    });
-  });
-
-  describe("today method", () => {
-    let diary = new Diary();
-    beforeEach(() => {
-      diary.diary.push({
-        message: "Brad is to me #yolo",
-        date: Date.now()
-      });
-    });
-
-    it("return entries from today", () => {
-      let result = diary.today();
-      result.forEach((entry, index) => {
-        expect(entry.message).toEqual(result[index].message);
-        expect(entry.date).toEqual(result[index].date);
-      });
-    });
-  });
-});
-// describe("search method", () => {
-//   beforeEach();
-// });
-describe("entriesWithTag method", () => {
-  let diary = new Diary();
-  beforeEach(() => {
-    diary.entry(
-      "Brad is everything to me",
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
-    diary.entry(
-      "I'm standing outside Brad's house #yolo",
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
-  });
-
-  it("returns a message with the given tag", () => {
-    let tag = "#yolo";
-    let result = diary.entriesWithTag(tag);
-    expect("I'm standing outside Brad's house #yolo").toEqual(
-      result[0].message
-    );
-  });
-});
-
-///////
-describe("Entries entry method", () => {
-  beforeEach(function() {
     diary = new Diary();
   });
 
-  it("If first param is not a string it throws an error", function() {
-    expect(function() {
-      diary.entry(1);
-    }).toThrow(new Error("First param must be string"));
+  it("creates a new diary entry", () => {
+    diary.entry("Brad <3");
+    let result = diary.getEntry(0);
+    expect("Brad <3").toEqual(result.message);
   });
-
-  xit("entry takes an option second arg which is Date", function() {
-    const result = diary.entry(
-      "I love Brad",
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
-    console.log(result);
-    expect(result).toEquals([]);
+  it("creates a new diary entry with a Date if not given", () => {
+    diary.entry("Brad <3");
+    let result = diary.getEntry(0);
+    expect(result.date).toBeDefined();
   });
-  it("entry saves an entry into the diary, checking message", function() {
-    diary.entry("I love Brad", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
-    expect(diary.diary[0].message).toEqual("I love Brad");
+  it("it prefilters tags, when given a tag", () => {
+    diary.entry("Brad. Brad. Brad. #daBest");
+    let result = diary.getEntry(0);
+    expect(result.tags[0]).toEqual("#daBest");
   });
-  it("entry saves an entry into the diary, checking date", function() {
-    diary.entry("I love Brad", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
-    expect(diary.diary[0].date).toEqual(
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
+  it("it prefilters tags", () => {
+    diary.entry("Brad. Brad. #<3 Brad. #daBest");
+    let result = diary.getEntry(0);
+    let tags = ["#<3", "#daBest"];
+    let equivalent = checkArrays(tags, result.tags);
+    expect(equivalent).toEqual(true);
   });
-
-  describe("Diary tags method", () => {
-    xit("return all the tags", () => {
-      let tags = ["yolo", "MarryPoppins"];
-      let result = diary.tags();
-      expect(tags[0]).toEqual(result[0]);
-      expect(tags[1]).toEqual(result[1]);
-    });
-
-    it("returns only the entries that have tags", () => {
-      let tag = "yolo";
-      let diaryYolo = [
-        {
-          message: "Brad is to me #yolo",
-          date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-        },
-        {
-          message: "I'm standing outside Brad's house #yolo",
-          date: Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-        }
-      ];
-
-      let result = diary.entriesWithTag(tag);
-      result.forEach((entry, index) => {
-        expect(entry.message).toEqual(diaryYolo[index].message);
-        expect(entry.date).toEqual(diaryYolo[index].date);
-      });
-    });
+  //later regex test
+  xit("it prefilters tags", () => {
+    diary.entry("Brad. Brad.#<3 Brad. #daBest");
+    let result = diary.getEntry(0);
+    let tags = ["#<3", "#daBest"];
+    let equivalent = checkArrays(tags, result.tags);
+    expect(equivalent).toEqual(true);
   });
 });
-
-describe("Entries method", () => {
-  let diary = new Diary();
+//[],[]=>Bool
+function checkArrays(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+}
+let messages = [
+  {
+    message: "Brad is to me #yolo",
+    date: new Date("Mon, 25 Dec 1995 13:30:00 GMT")
+  },
+  {
+    message: "I'm standing outside Brad's house #yolo",
+    date: new Date("Mon, 25 Dec 1995 13:30:00 GMT")
+  },
+  {
+    message: "I'm standing outside Brad's house #MarryPoppins",
+    date: new Date("Mon, 25 Dec 1995 13:30:00 GMT")
+  }
+];
+describe("entries method", () => {
   beforeEach(() => {
-    diary.entry(
-      "Brad is everything to me",
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
-    diary.entry(
-      "I'm standing outside Brad's house #yolo",
-      Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-    );
-  });
-
-  it("returns all the data entries with messages and dates (not current date)", () => {
-    let results = diary.entries();
-    results.forEach((entry, index) => {
-      expect(entry.message).toEqual(diary.diary[index].message);
-      expect(entry.date).toEqual(diary.diary[index].date);
+    diary = new Diary();
+    messages.forEach(entry => {
+      diary.entry(entry.message, entry.date);
     });
   });
-
-  it("returns all data entries with messages and dates (current and past dates)", () => {
-    let currDate = Date.now();
-    diary.diary.push({ message: "Brad is everything to me", date: currDate });
-    let results = diary.entries();
-    results.forEach((entry, index) => {
-      expect(entry.message).toEqual(diary.diary[index].message);
-      expect(entry.date).toEqual(diary.diary[index].date);
-    });
+  let messages = [
+    {
+      message: "Brad is to me #yolo",
+      date: new Date("Mon, 25 Dec 1995 13:30:00 GMT"),
+      tags: "#yolo"
+    },
+    {
+      message: "I'm standing outside Brad's house #yolo",
+      date: new Date("Mon, 25 Dec 1995 13:30:00 GMT"),
+      tags: "#yolo"
+    },
+    {
+      message: "I'm standing outside Brad's house #MarryPoppins",
+      date: new Date("Mon, 25 Dec 1995 13:30:00 GMT"),
+      tags: "#MarryPoppins"
+    }
+  ];
+  it("returns an array", () => {
+    let result = Array.isArray(diary.entries());
+    expect(result).toBe(true);
+  });
+  it("returns an array of entries", () => {
+    let result = diary.entries();
+    //expect(result).toEqual(messages);
+    expect(result[0].message).toBe("Brad is to me #yolo");
+    expect(result[0].tags[0]).toBe("#yolo");
   });
 });
-
-// describe("entry saves an entry into the diary", function() {
-//   xit("entry saves an entry into the diary", function() {
-//     const result = Entries.entry(
-//       "I love Brad",
-//       Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-//     );
-//     expect(result).match("I love Brad");
-//   });
-//   xit("entry saves an entry into the diary", function() {
-//     const result = Entries.entry(
-//       "I love Brad",
-//       Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-//     );
-//     expect(result).match("I love Brad");
-//   });
-//   xit("entry saves an entry into the diary", function() {
-//     const result = Entries.entry(
-//       "I love Brad",
-//       Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-//     );
-//     expect(result).match("I love Brad");
-//   });
-// });
+//
+// diary.tags();
+// // .tags this should return ['yolo', 'sorrynotsorry']
+//
+// diary.entriesWithTag("yolo");
+// // .entriesWithTag return a list of every entry with the yolo tag
+//
+// diary.today();
+// // .today returns a list of all entries written today
+//
+// diary.date(Date.parse("10/10/10"));
+// // .date returns a list of all entries written on the given date
+//
+// diary.entry("Today, Brad accidentally touched my hand in the hallway.");
+// diary.entry("Brad is a dreamboat.");
+// diary.entry("My dad is sooo annoying.");
+//
+// diary.search("Brad");
+// // .search should return a list of all notes with the given string.
+//
+// diary.save("./.diary");
+// // .save should persist the current state of the diary the given file.
