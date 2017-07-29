@@ -1,0 +1,36 @@
+[
+ {
+  "message": "I love brad things stuff",
+  "date": 1501368214417,
+  "tags": []
+ },
+ {
+  "message": "I love brad things stuff",
+  "date": 1501368258226,
+  "tags": []
+ },
+ {
+  "message": "I love brad things stuff",
+  "date": 1501368260858,
+  "tags": []
+ },
+ {
+  "message": "things",
+  "date": "2017",
+  "tags": []
+ },
+ {
+  "message": "#yooolo",
+  "date": 1501369380727,
+  "tags": [
+   "#yooolo"
+  ]
+ },
+ {
+  "message": "#oooo OOOOOOOOO",
+  "date": 1501369403488,
+  "tags": [
+   "#oooo"
+  ]
+ }
+]
