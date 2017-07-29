@@ -108,37 +108,96 @@ describe("entries tags", () => {
   it("correctly parses multiple tags", () => {
     diary = new Diary();
     diary.entry("#yolo");
-    //diary.entry("Incorrect Entry#");  //create a separate test for this
     diary.entry("Brad is my soul #beMine #dope");
     diary.entry("Brad is life #beMine");
     let answer = ["#yolo", "#beMine", "#dope"];
     let result = diary.tags();
-    expect(result.values()).toBe(answer.keys());
+    expect(result).toEqual(answer);
   });
   xit("returns an array", () => {
     let result = diary.tags();
     expect(Array.isArray(result)).toBe(true);
   });
 });
-//
-// diary.tags();
-// // .tags this should return ['yolo', 'sorrynotsorry']
-//
-// diary.entriesWithTag("yolo");
-// // .entriesWithTag return a list of every entry with the yolo tag
-//
-// diary.today();
-// // .today returns a list of all entries written today
-//
-// diary.date(Date.parse("10/10/10"));
-// // .date returns a list of all entries written on the given date
-//
-// diary.entry("Today, Brad accidentally touched my hand in the hallway.");
-// diary.entry("Brad is a dreamboat.");
-// diary.entry("My dad is sooo annoying.");
-//
-// diary.search("Brad");
-// // .search should return a list of all notes with the given string.
-//
-// diary.save("./.diary");
-// // .save should persist the current state of the diary the given file.
+describe("Top:", () => {
+  let now = Date.now();
+  let messages = [
+    {
+      message: "Brad, braaaad, bread. Brad, the sandwich of the soul.",
+      date: new Date("Mon, 25 Dec 1995 13:30:00 GMT"),
+      tags: []
+    },
+    {
+      message:
+        "Smelling Brad's hair from the next booth at Hardees! #toGoodtoBeTrue",
+      date: now,
+      tags: ["#toGoodtoBeTrue"]
+    },
+    {
+      message: "Brad's mom said I smelled! #toGoodtoBeTrue",
+      date: now,
+      tags: ["#toGoodtoBeTrue"]
+    },
+    {
+      message: "Bodacious Rad Alternate Dimension #BRAD",
+      date: now,
+      tags: "#BRAD"
+    }
+  ];
+  beforeEach(() => {
+    diary = new Diary();
+    messages.forEach(entry => {
+      diary.entry(entry.message, entry.date);
+    });
+  });
+
+  describe("entries with tag method:", () => {
+    it("returns the entries with a given tag", () => {
+      let result = diary.entriesWithTag("#BRAD");
+      let answer = "Bodacious Rad Alternate Dimension #BRAD";
+      expect(result[0].message).toBe(answer);
+    });
+    it("returns all the entries with a given tag", () => {
+      let result = diary.entriesWithTag("#toGoodtoBeTrue");
+      let answerMessages = [
+        "Smelling Brad's hair from the next booth at Hardees! #toGoodtoBeTrue",
+        "Brad's mom said I smelled! #toGoodtoBeTrue"
+      ];
+      let resultMessages = [result[0].message, result[1].message];
+      expect(resultMessages).toEqual(answerMessages);
+    });
+  });
+  describe("Date method:", () => {
+    it("grabs all the entries with a specified date", () => {
+      let result = diary.date(now);
+      expect(result.length).toEqual(3);
+    });
+  });
+  describe("Today method:", () => {
+    it("grabs all the entries from today", () => {
+      let result = diary.date(now);
+      expect(result.length).toEqual(3);
+    });
+  });
+  describe("Search method:", () => {
+    it("returns all entries with messages that contain a given text", () => {
+      let result = diary.search("hair");
+      let answer = messages[1].message;
+      expect(result[0].message).toBe(answer);
+    });
+  });
+  describe("Save method", () => {
+    xit("saves a the current diary to a given file", () => {
+      const fs = require("fs");
+      let json = JSON.stringify(messages);
+      diary.save("./diary.txt");
+      let json_answer = JSON.parse(fs.readFileSync("./diary.txt", "utf8"));
+      expect(json_answer).toEqual(json);
+    });
+  });
+  describe("Load method", () => {
+    xit("loads a file as the current diary", () => {
+      expect();
+    });
+  });
+});

@@ -21,6 +21,7 @@ const Entry = function(message, date) {
 
 const Diary = function() {
   let _entries = [];
+  let fs = require("fs");
 
   this.entry = function(message, date) {
     if (typeof message !== "string") {
@@ -36,56 +37,56 @@ const Diary = function() {
   };
   this.tags = function() {
     //iterate over all messages and grab all the tags
-    let uniqueCheck = true;
-    if (!uniqueCheck) {
-      let allTags = [];
-      for (let i = 0; i < _entries.length; i++) {
-        let entry = _entries[i];
-        //allTags.push(_entries[i].tags);
-        //Array.prototype.push.apply(allTags, _entries.tags);
-        for (let j = 0; j < entry.tags.length; j++) {
-          //allTags[entry.tags[j]] = entry.tags[j];
-          allTags.push(entry.tags[j]);
-        }
-      }
-    } else {
-      var allTags = {};
-      for (let i = 0; i < _entries.length; i++) {
-        let entry = _entries[i];
-        for (let j = 0; j < entry.tags.length; j++) {
-          allTags[entry.tags[j]] = entry.tags[j];
-        }
+    let allTags = [];
+    for (let i = 0; i < _entries.length; i++) {
+      let entry = _entries[i];
+      //allTags.push(_entries[i].tags);
+      //Array.prototype.push.apply(allTags, _entries.tags);
+      for (let j = 0; j < entry.tags.length; j++) {
+        //allTags[entry.tags[j]] = entry.tags[j];
+        allTags.push(entry.tags[j]);
       }
     }
-    console.log(Object.keys(allTags));
-    let arr = Object.keys(allTags);
-    //console.log(arr);
-    return arr;
-    //console.log(allTags);
-    //let arr = Array.from(allTags.values());
-    //console.log(`arr ${arr}`);
-    //return Array.from(allTags);
-    return allTags;
+
+    //why this '...' ?
+    return [...new Set(allTags)];
   };
-  //old
   this.entriesWithTag = function(tag) {
-    let tagEntries = [];
-    this.diary.forEach(entry => {
-      if (entry.message.includes(`${tag}`)) tagEntries.push(entry);
+    let entriesWithTag = [];
+    _entries.forEach(entry => {
+      if (entry.tags.includes(`${tag}`)) {
+        entriesWithTag.push(entry);
+      }
     });
-    return tagEntries;
+    return entriesWithTag;
   };
-  //old
   this.date = function(date) {
     let dateEntries = [];
-    this.diary.forEach(entry => {
+    _entries.forEach(entry => {
       if (entry.date === date) dateEntries.push(entry);
     });
     return dateEntries;
   };
-  //old
   this.today = function() {
     return this.date(Date.now());
+  };
+  this.search = function(text) {
+    let matchingEntries = [];
+    _entries.forEach(entry => {
+      if (entry.message.includes(text)) {
+        matchingEntries.push(entry);
+      }
+    });
+    return matchingEntries;
+  };
+  this.save = function(path) {
+    let json = JSON.stringify(_entries, null, " ");
+    fs.writeFileSync(path, json);
+  };
+  this.load = function(path) {
+    let json = fs.readFileSync(path);
+    let diary = JSON.parse(json);
+    this._entries = diary;
   };
 };
 

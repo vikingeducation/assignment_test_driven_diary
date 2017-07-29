@@ -1,0 +1,28 @@
+[
+ {
+  "message": "Brad, braaaad, bread. Brad, the sandwich of the soul.",
+  "date": "1995-12-25T13:30:00.000Z",
+  "tags": []
+ },
+ {
+  "message": "Smelling Brad's hair from the next booth at Hardees! #toGoodtoBeTrue",
+  "date": 1501364650073,
+  "tags": [
+   "#toGoodtoBeTrue"
+  ]
+ },
+ {
+  "message": "Brad's mom said I smelled! #toGoodtoBeTrue",
+  "date": 1501364650073,
+  "tags": [
+   "#toGoodtoBeTrue"
+  ]
+ },
+ {
+  "message": "Bodacious Rad Alternate Dimension #BRAD",
+  "date": 1501364650073,
+  "tags": [
+   "#BRAD"
+  ]
+ }
+]
