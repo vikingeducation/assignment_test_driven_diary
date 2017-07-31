@@ -106,3 +106,16 @@ describe("The date methods should", () => {
     );
   });
 });
+
+describe("The search method should", () => {
+  beforeEach(() => {
+    diary = new Diary("test.json");
+    fs.writeFileSync("./data/test.json", "{}");
+  });
+  it("returns a list of notes with the given substring", () => {
+    diary.entry("Today, Brad accidentally touched my hand in the hallway.");
+    diary.entry("Brad is a dreamboat.");
+    diary.entry("My dad is sooo annoying.");
+    expect(diary.search("Brad").length).toEqual(2);
+  });
+});
