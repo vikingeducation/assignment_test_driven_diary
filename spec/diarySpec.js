@@ -99,4 +99,29 @@ describe("Diary Module:", () => {
       expect(diary.search("Brad").length).toEqual(2);
     });
   });
+
+  describe("The file methods should", () => {
+    it("persist the state of the diary to the given file.", () => {
+      fs.writeFileSync("./data/test.json", "");
+      diary.entry("Today, Brad accidentally touched my hand in the hallway.");
+      diary.entry("Brad is a dreamboat.");
+      diary.entry("My dad is sooo annoying.");
+      diary.save("test");
+      let fileDiary = JSON.parse(fs.readFileSync("./data/test.json", "utf8"));
+      expect(fileDiary.entries.length).toEqual(3);
+      expect(fileDiary.entries[0].text).toEqual(
+        "Today, Brad accidentally touched my hand in the hallway."
+      );
+      expect(fileDiary.tags).toBeTruthy;
+    });
+    it("loads the diary object from the given file", () => {
+      fs.writeFileSync(
+        "./data/test.json",
+        '{ "entries": [ { "text": "Today, Brad accidentally touched my hand in the hallway.", "date": "Mon Jul 31 2017 00:15:59 GMT-0400 (EDT)", "tags": []}], "tags": []}'
+      );
+      diary.load("test");
+      expect(diary.entryArr.length).toEqual(1);
+      expect(diary.tagsArr).toBeTruthy();
+    });
+  });
 });
