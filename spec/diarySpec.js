@@ -3,17 +3,6 @@ let fs = require("fs");
 
 let diary;
 
-// describe("diary", () => {
-//   it("should have a file to write to", function() {
-//     diary = new Diary("test.json");
-//     expect(diary.filename).toEqual("./data/test.json");
-//   });
-//   it("should return correct default file", function() {
-//     diary = new Diary();
-//     expect(diary.filename).toEqual("./data/diary.json");
-//   });
-// });
-
 describe("Diary Module:", () => {
   beforeEach(() => {
     diary = new Diary();
@@ -121,7 +110,7 @@ describe("Diary Module:", () => {
       );
       diary.load("test");
       expect(diary.entryArr.length).toEqual(1);
-      expect(diary.tagsArr).toBeTruthy();
+      expect(diary.tagArr).toBeTruthy();
     });
   });
 });

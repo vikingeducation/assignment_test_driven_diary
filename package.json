@@ -6,9 +6,7 @@
   "directories": {
     "lib": "lib"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thebopshoobop/assignment_test_driven_diary.git"
