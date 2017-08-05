@@ -20,12 +20,17 @@ describe("entry", () => {
     diary = new Diary("test.json");
     fs.writeFileSync("./data/test.json", "{}");
     diary.entry("Brad is everything to me.");
+    diary.entry("Brad is wonderful");
     let diaryFile = fs.readFileSync("./data/test.json", "utf8");
     diaryObj = JSON.parse(diaryFile);
   });
 
   it("should add to the diary file", function() {
     expect(diaryObj.entries[0].text).toEqual("Brad is everything to me.");
+  });
+
+  it("should add all files", function() {
+    expect(diaryObj.entries[1].text).toEqual("Brad is wonderful");
   });
 
   it("add dates to the diary entries", function() {
@@ -38,7 +43,7 @@ describe("entries with extra params", () => {
     diary = new Diary("test.json");
     fs.writeFileSync("./data/test.json", "{}");
   });
-  it("accept custom time", function() {
+  it("accepts a custom time", function() {
     let date = new Date();
     diary.entry("Brad is everything to me.", date);
     let diaryFile = fs.readFileSync("./data/test.json", "utf8");
@@ -66,10 +71,10 @@ describe("The tags methods should", () => {
     fs.writeFileSync("./data/test.json", "{}");
     diary.entry("I'm standing outside Brad's house #yolo");
     diary.entry("I'm at Brad's window #yolo");
-    diary.entry("OMG. What have I done? #sorrynotsorry");
+    diary.entry("OMG. #OMG What have I done? #sorrynotsorry");
   });
   it("return a list of all of the tags", () => {
-    expect(diary.tags().length).toEqual(2);
+    expect(diary.tags().length).toEqual(3);
     expect(Array.isArray(diary.tags())).toBeTruthy();
     expect(typeof diary.tags()[0] === "string").toBeTruthy();
   });
@@ -83,6 +88,7 @@ describe("The date methods should", () => {
     diary = new Diary("test.json");
     fs.writeFileSync("./data/test.json", "{}");
   });
+
   it("returns a list of the entries written today", () => {
     diary.entry(
       "I'm standing outside Brad's house #yolo",
@@ -93,6 +99,7 @@ describe("The date methods should", () => {
     expect(diary.today().length).toEqual(2);
     expect(diary.today()[0].text).toEqual("I'm at Brad's window");
   });
+
   it("returns a list of the entries written on a given day", () => {
     diary.entry(
       "I'm standing outside Brad's house #yolo",
