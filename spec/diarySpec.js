@@ -45,7 +45,19 @@ describe('behavior of the diary', function() {
     });
   });
 
-  describe('tags method', function() {});
+  describe('tags method', function() {
+    var diary = new Diary();
+
+    it('returns the tag from one entry', function() {
+      diary.entry('test method #yolo');
+      expect(diary.getTags()).toEqual(['yolo']);
+    });
+
+    it('returns multiple tags in the same entry', function() {
+      diary.entry('about to land in london #yolo #traveling');
+      expect(diary.getTags()).toEqual(['yolo', 'traveling']);
+    });
+  });
 
   describe('entries with tags method', function() {});
 
