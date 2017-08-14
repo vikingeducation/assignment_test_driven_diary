@@ -28,7 +28,7 @@ describe('diary', () => {
 
         it('should store anytags', () => {
             diary.entry("Writing first js tests today #jasmineTea");
-            expect(diary.entryList[0].tag).toEqual('#jasmineTea');
+            expect(diary.entryList[0].tags[0]).toEqual('#jasmineTea');
         });
 
     });
