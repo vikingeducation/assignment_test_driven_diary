@@ -22,6 +22,8 @@ class Diary {
         let entry = { "msg": msg, "timeStamp": time, "tags": tags };
 
         this.entryList.push(entry);
+
+        return "# Duly Noted!";
     };
 
     //Get all messages in an entry
@@ -103,13 +105,13 @@ class Diary {
     }
 
     load(path) {
-        if (path) {
+        if (!fs.existsSync(path)) {
+            return;
+        }
+        else {
             let loadedEntryList = JSON.parse(fs.readFileSync(path, 'utf-8'));
             this.entryList.length = 0;
             this.entryList = loadedEntryList;
-        }
-        else {
-             console.log('doesnt exist');
         }
     }
 
