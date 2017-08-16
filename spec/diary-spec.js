@@ -1,6 +1,30 @@
 const Diary = require("../src/diary");
 const moment = require('moment');
 
+let sampleJson = [
+    {
+        "msg": "Hi how are you good sire?",
+        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
+        "tags": [
+            "meeting"
+        ]
+    },
+    {
+        "msg": "I saw a butterfly get eaten by a spider",
+        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
+        "tags": [
+            "nature"
+        ]
+    },
+    {
+        "msg": "I dont like them snakes",
+        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
+        "tags": [
+            "poison",
+            "coldhearted"
+        ]
+    }
+];
 
 describe('diary', () => {
     let diary

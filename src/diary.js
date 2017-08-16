@@ -1,5 +1,6 @@
 const moment = require('moment');
 const utils = require('../tools/utils');
+const fs = require('fs');
 
 class Diary {
 
@@ -16,7 +17,7 @@ class Diary {
 
         let tags = utils.checkForTags(msg); //store tags
         if (tags.length != 0) msg = utils.removeTags(msg); //remove tags if exist, only storing message
-        
+
 
         let entry = { "msg": msg, "timeStamp": time, "tags": tags };
 
@@ -25,7 +26,7 @@ class Diary {
 
     //Get all messages in an entry
     entries() {
-        let allEntries = this.entryList.map(entry => entry.msg);
+        let allEntries = this.entryList.map(entry => `${entry.timeStamp}  ${entry.msg}`);
         return allEntries;
     };
 
@@ -95,6 +96,21 @@ class Diary {
         });
 
         return results;
+    }
+
+    save(path) {
+        fs.writeFileSync(path, JSON.stringify(this.entryList), 'utf-8');
+    }
+
+    load(path) {
+        if (path) {
+            let loadedEntryList = JSON.parse(fs.readFileSync(path, 'utf-8'));
+            this.entryList.length = 0;
+            this.entryList = loadedEntryList;
+        }
+        else {
+             console.log('doesnt exist');
+        }
     }
 
 };
