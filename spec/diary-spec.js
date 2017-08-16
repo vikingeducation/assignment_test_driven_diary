@@ -1,31 +1,6 @@
 const Diary = require("../src/diary");
 const moment = require('moment');
 
-let sampleJson = [
-    {
-        "msg": "Hi how are you good sire?",
-        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
-        "tags": [
-            "meeting"
-        ]
-    },
-    {
-        "msg": "I saw a butterfly get eaten by a spider",
-        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
-        "tags": [
-            "nature"
-        ]
-    },
-    {
-        "msg": "I dont like them snakes",
-        "timeStamp": "Tuesday, August 15th 2017, 10:38:19 pm",
-        "tags": [
-            "poison",
-            "coldhearted"
-        ]
-    }
-];
-
 describe('diary', () => {
     let diary
 
@@ -61,11 +36,11 @@ describe('diary', () => {
 
     describe('entries method', () => {
         it('should return all entries', () => {
-            diary.entry("test message 1 #hurricane");
-            diary.entry("test message 2");
-            diary.entry("test message 3");
-
-            let entryTestMsgs = ["test message 1", "test message 2", "test message 3"];
+            diary.entry(`test message 1 #hurricane`);
+            diary.entry(`test message 2`);
+            diary.entry(`test message 3`);
+            let time = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+            let entryTestMsgs = [`${time}  test message 1`, `${time}  test message 2`, `${time}  test message 3`];
 
             expect(diary.entries()).toEqual(entryTestMsgs);
         });
