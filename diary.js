@@ -5,7 +5,8 @@ var Diary = function() {
 
 Diary.prototype.entry = function(body, date) {
   var entry = {
-    body: body
+    body: body,
+    tags: []
   };
   if (date) {
     entry.timestamp = date;
@@ -30,6 +31,16 @@ Diary.prototype.entries = function() {
 
 Diary.prototype.getTags = function() {
   return [...this.tags];
+};
+
+Diary.prototype.entriesWithTag = function(tag) {
+  let results = [];
+  this.entries.forEach(function(message) {
+    if (message.tags.includes(tag)) {
+      results.push(message);
+    }
+  });
+  return results;
 };
 
 getTagsFromBody = function(body) {

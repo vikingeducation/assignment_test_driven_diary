@@ -57,9 +57,37 @@ describe('behavior of the diary', function() {
       diary.entry('about to land in london #yolo #traveling');
       expect(diary.getTags()).toEqual(['yolo', 'traveling']);
     });
+
+    it('returns multiple tags from different entries', function() {
+      diary.entry('final entry for today #nightcap');
+      expect(diary.getTags()).toEqual(['yolo', 'traveling', 'nightcap']);
+    });
   });
 
-  describe('entries with tags method', function() {});
+  describe('entries with tags method', function() {
+    var diary = new Diary();
+
+    beforeEach(function() {
+      diary.entry('First entry #tagged');
+      diary.entry('second entry');
+      diary.entry('third entry #tagged');
+      diary.entry('fourth entry #yolo');
+    });
+
+    it('returns multiple entries with the same tag', function() {
+      expect(diary.entriesWithTag('tagged').length).toEqual(2);
+    });
+
+    it('returns a single entry if it is the only one tagged', function() {
+      expect(diary.entriesWithTag('yolo')[0].body).toEqual(
+        'fourth entry #yolo'
+      );
+    });
+
+    it('returns no entries if there are none with the given tag', function() {
+      expect(diary.entriesWithTag('tbt')).toEqual([]);
+    });
+  });
 
   describe('today method', function() {});
 
