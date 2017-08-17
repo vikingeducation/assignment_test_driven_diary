@@ -11,19 +11,17 @@ describe('behavior of the diary', function() {
 
     it('saves the current datetime to a timestamp', function() {
       const result = diary.entry('Now I want ice cream.');
-      const time = Date.now();
+      const time = new Date();
       expect(result.timestamp).toEqual(time);
     });
 
     it('accepts an optional date argument', function() {
       const result = diary.entry(
         'Brad. Brad. Brad. Brad. Brad.',
-        Date.parse('Mon, 25 Dec 1995 13:30:00 GMT')
+        new Date('8/8/2017')
       );
-      const time = Date.now();
-      expect(result.timestamp).toEqual(
-        Date.parse('Mon, 25 Dec 1995 13:30:00 GMT')
-      );
+      const time = new Date('8/8/2017');
+      expect(result.timestamp).toEqual(time);
     });
   });
 
@@ -89,9 +87,53 @@ describe('behavior of the diary', function() {
     });
   });
 
-  describe('today method', function() {});
+  describe('today method', function() {
+    var diary;
 
-  describe('date method', function() {});
+    beforeEach(function() {
+      diary = new Diary();
+    });
+
+    it('returns multiple entries for the target date', function() {
+      diary.entry('First entry', new Date('8/15/2017'));
+      diary.entry('second entry', new Date('8/15/2017'));
+      diary.entry('third entry', new Date());
+      diary.entry('fourth entry', new Date());
+      expect(diary.today().length).toEqual(2);
+    });
+
+    it('returns no entires if there are none for the target date', function() {
+      diary.entry('First entry', new Date('8/15/2017'));
+      diary.entry('second entry', new Date('8/15/2017'));
+      diary.entry('third entry', new Date('1/1/2016'));
+      diary.entry('fourth entry', new Date('8/5/2017'));
+      expect(diary.today().length).toEqual(0);
+    });
+  });
+
+  describe('date method', function() {
+    var diary;
+
+    beforeEach(function() {
+      diary = new Diary();
+    });
+
+    it('returns multiple entries for the target date', function() {
+      diary.entry('First entry', new Date('8/15/2017'));
+      diary.entry('second entry', new Date('8/15/2017'));
+      diary.entry('third entry', new Date('8/15/2017'));
+      diary.entry('fourth entry', new Date('8/16/2017'));
+      expect(diary.date(new Date('8/15/2017')).length).toEqual(3);
+    });
+
+    it('returns no entires if there are none for the target date', function() {
+      diary.entry('First entry', new Date('8/15/2017'));
+      diary.entry('second entry', new Date('8/15/2017'));
+      diary.entry('third entry', new Date('8/15/2017'));
+      diary.entry('fourth entry', new Date('8/16/2017'));
+      expect(diary.date(new Date('1/1/2015')).length).toEqual(0);
+    });
+  });
 
   describe('search method', function() {});
 

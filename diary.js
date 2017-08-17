@@ -11,7 +11,7 @@ Diary.prototype.entry = function(body, date) {
   if (date) {
     entry.timestamp = date;
   } else {
-    entry.timestamp = Date.now();
+    entry.timestamp = new Date();
   }
   let tags = getTagsFromBody(body);
   if (tags) {
@@ -37,6 +37,27 @@ Diary.prototype.entriesWithTag = function(tag) {
   let results = [];
   this.entries.forEach(function(message) {
     if (message.tags.includes(tag)) {
+      results.push(message);
+    }
+  });
+  return results;
+};
+
+Diary.prototype.today = function() {
+  const todaysDate = new Date();
+  var results = [];
+  this.entries.forEach(function(message) {
+    if (message.timestamp.toDateString() === todaysDate.toDateString()) {
+      results.push(message);
+    }
+  });
+  return results;
+};
+
+Diary.prototype.date = function(date) {
+  var results = [];
+  this.entries.forEach(function(message) {
+    if (message.timestamp.toDateString() === date.toDateString()) {
       results.push(message);
     }
   });
