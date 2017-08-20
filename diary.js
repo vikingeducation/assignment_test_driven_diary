@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 var Diary = function() {
   this.entries = [];
   this.tags = new Set();
@@ -62,6 +64,32 @@ Diary.prototype.date = function(date) {
     }
   });
   return results;
+};
+
+Diary.prototype.search = function(term) {
+  var results = [];
+  this.entries.forEach(function(message) {
+    if (message.body.match(term)) {
+      results.push(message);
+    }
+  });
+  return results;
+};
+
+Diary.prototype.save = function(filename) {
+  fs.writeFileSync(
+    filename,
+    JSON.stringify({
+      entries: this.entries,
+      tags: [...this.tags]
+    })
+  );
+};
+
+Diary.prototype.load = function(filename) {
+  let result = JSON.parse(fs.readFileSync(filename, 'utf8'));
+  this.entries = result.entries;
+  this.tags = result.tags;
 };
 
 getTagsFromBody = function(body) {

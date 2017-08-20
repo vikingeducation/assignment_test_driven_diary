@@ -1,3 +1,4 @@
+const fs = require('fs');
 var Diary = require('../diary');
 
 describe('behavior of the diary', function() {
@@ -135,9 +136,63 @@ describe('behavior of the diary', function() {
     });
   });
 
-  describe('search method', function() {});
+  describe('search method', function() {
+    var diary = new Diary();
+    diary.entry('Flying to Barcelona!');
+    diary.entry('Leaving London');
+    diary.entry('London was fun!');
 
-  describe('save method', function() {});
+    it('returns multiple entries that contain the search term', function() {
+      expect(diary.search('London').length).toEqual(2);
+    });
 
-  describe('load method', function() {});
+    it('returns nothing if no entries contain the search term', function() {
+      expect(diary.search('pizza').length).toEqual(0);
+    });
+  });
+
+  describe('save method', function() {
+    var diary = new Diary();
+
+    it('saves a diary with one message to a file', function() {
+      diary.entry('Flying to Paris!');
+      diary.save('./diary.json');
+      let result = JSON.parse(fs.readFileSync('diary.json', 'utf8'));
+      expect(result.entries[0]['body']).toEqual('Flying to Paris!');
+    });
+
+    it('saves a diary with multiple messages to a file', function() {
+      diary.entry('Flying back to SFO next week #travel');
+      diary.entry('But first, time in Paris!');
+      diary.save('./diary.json');
+      let result = JSON.parse(fs.readFileSync('diary.json', 'utf8'));
+      expect(result.entries[2]['body']).toEqual('But first, time in Paris!');
+    });
+
+    it('saves tags to the file', function() {
+      let result = JSON.parse(fs.readFileSync('diary.json', 'utf8'));
+      expect(result.tags[0]).toEqual('travel');
+    });
+  });
+
+  describe('load method', function() {
+    beforeEach(function() {
+      var diary = new Diary();
+      diary.entry('I like pate. #food');
+      diary.entry('And burgundy #wine');
+      diary.save('./diary.json');
+    });
+
+    it('loads multiple entries from a file', function() {
+      let testDiary = new Diary();
+      testDiary.load('diary.json');
+      expect(testDiary.entries[1]['body']).toEqual('And burgundy #wine');
+    });
+
+    it('retains tags', function() {
+      let testDiary = new Diary();
+      testDiary.load('diary.json');
+      expect(testDiary.tags.length).toEqual(2);
+    });
+  });
 });
