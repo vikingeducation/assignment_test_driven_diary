@@ -1,0 +1,26 @@
+{
+  "name": "assignment_test_driven_diary",
+  "version": "1.0.0",
+  "description": "Build a command line diary interface, driven and protected by a suite of comprehensive tests.",
+  "main": "diary.js",
+  "bin": {
+    "diary": "bin/diary.js"
+  },
+  "dependencies": {
+    "date-and-time": "^0.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chuckinabox/assignment_test_driven_diary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chuckinabox/assignment_test_driven_diary/issues"
+  },
+  "homepage": "https://github.com/chuckinabox/assignment_test_driven_diary#readme"
+}
