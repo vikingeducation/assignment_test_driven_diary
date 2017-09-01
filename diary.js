@@ -83,12 +83,20 @@ diary = {
     return matches;
   },
   save: function (path) {
-    fs.writeFileSync(path, this.contents);
+    const jsonObj = JSON.stringify(this.contents);
+    fs.writeFileSync(path, jsonObj);
     return true;
   },
   load: function (path) {
-    this.contents = fs.readFileSync(path, 'utf8');
-    return true;
+    if (fs.statSync(path)) {
+      var pulledJson = fs.readFileSync(path, 'utf8');
+      pulledJson = JSON.parse(pulledJson);
+      this.contents = pulledJson;
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }

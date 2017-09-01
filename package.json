@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Build a command line diary interface, driven and protected by a suite of comprehensive tests.",
   "main": "diary.js",
+  "bin": {
+    "diary": "bin/diary.js"
+  },
   "dependencies": {
     "date-and-time": "^0.5.0"
   },
