@@ -19,4 +19,21 @@ describe("Diary", function() {
 		var result = diary.entry("<3 Braaaad <3");
 		expect(diary.diary[0].body).toEqual("<3 Braaaad <3");
 	});
+
+	it("returns some entries", function() {
+		diary.entry("<3 Braaaad <3");
+		diary.entry("Brad. Brad. Brad. Brad. Brad.");
+		diary.entry("Brad is everything to me.");
+		var totalEntries = diary.entries();
+		expect(totalEntries).toEqual(diary.diary);
+	});
+
+	it("returns some tags", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm at Brad's window #yolo");
+		diary.entry("OMG. What have I done? #sorrynotsorry");
+		var tags = diary.tags();
+		console.log(tags);
+		expect(tags.length).toEqual(3);
+	});
 });
