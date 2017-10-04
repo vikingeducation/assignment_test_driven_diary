@@ -33,7 +33,15 @@ describe("Diary", function() {
 		diary.entry("I'm at Brad's window #yolo");
 		diary.entry("OMG. What have I done? #sorrynotsorry");
 		var tags = diary.tags();
-		console.log(tags);
 		expect(tags.length).toEqual(3);
+	});
+
+	it("returns tagged entries", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm standing outside Brad's house yolo");
+		diary.entry("I'm at Brad's window #yolo");
+		diary.entry("OMG. What have I done? #sorrynotsorry");
+		var taggedEntries = diary.entriesWithTag("yolo");
+		expect(taggedEntries.length).toEqual(2);
 	});
 });

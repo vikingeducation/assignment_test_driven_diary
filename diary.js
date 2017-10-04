@@ -33,7 +33,19 @@ class Diary {
 			var regex = /#\S+[a-z]/g;
 			taglist.push(diaryEntry.body.match(regex));
 		});
+		//taglist.push(diaryFileEntries.match(regex))
 		return taglist;
+	}
+
+	entriesWithTag(tag) {
+		var taggedEntries = [];
+		this.diary.forEach(diaryEntry => {
+			var regex = new RegExp(`#${tag}`, "g");
+			if (regex.test(diaryEntry.body)) {
+				taggedEntries.push(diaryEntry);
+			}
+		});
+		return taggedEntries;
 	}
 
 	today() {
