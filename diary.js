@@ -1,4 +1,4 @@
-const diaryFile = "./diaryfile";
+const diaryFile = "./diaryfile.txt";
 const fs = require("fs");
 
 class Diary {
@@ -49,7 +49,36 @@ class Diary {
 	}
 
 	today() {
-		//return diary entries from today
+		var todaysEntries = [];
+		var todaysDate = new Date();
+		this.diary.forEach(diaryEntry => {
+			var diaryEntryDate = new Date(diaryEntry.date);
+			if (
+				diaryEntryDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)
+			) {
+				todaysEntries.push(diaryEntry);
+			}
+		});
+		return todaysEntries;
+	}
+
+	search(search) {
+		var searchResults = this.diary.filter(diaryEntry => {
+			var regex = new RegExp(search, "gi");
+			return diaryEntry.body.match(regex);
+		});
+		return searchResults;
+	}
+
+	save() {
+		fs.appendFile(diaryFile, JSON.stringify(this.diary), err => {
+			if (err) throw err;
+			console.log("Diary saved :)");
+		});
+	}
+
+	load() {
+		this.diary = fs.readFileSync(diaryFile);
 	}
 }
 

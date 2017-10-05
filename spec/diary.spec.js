@@ -1,8 +1,11 @@
 const Diary = require("../diary.js");
+const diaryFile = "./diaryfile.txt";
+const fs = require("fs");
 
 describe("Diary", function() {
 	beforeEach(function() {
 		diary = new Diary();
+		fs.writeFile(diaryFile, "");
 	});
 
 	it("adds something to the diary", function() {
@@ -43,5 +46,46 @@ describe("Diary", function() {
 		diary.entry("OMG. What have I done? #sorrynotsorry");
 		var taggedEntries = diary.entriesWithTag("yolo");
 		expect(taggedEntries.length).toEqual(2);
+	});
+
+	it("returns todays entries only", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm standing outside Brad's house yolo");
+		var todaysEntries = diary.today();
+		expect(todaysEntries.length).toEqual(2);
+	});
+
+	it("returns entries that match a search", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm at Brad's window #yolo");
+		diary.entry("OMG. What have I done? #sorrynotsorry");
+		var searchResults = diary.search("Brad");
+		expect(searchResults.length).toEqual(2);
+	});
+
+	it("saves a file", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm at Brad's window #yolo");
+		diary.entry("OMG. What have I done? #sorrynotsorry");
+		diary.save();
+		var dataFromFile = fs.readFileSync(diaryFile);
+		expect(diary.diary).toMatch(dataFromFile);
+		setTimeout(function() {
+			fs.writeFile(diaryFile, "");
+		}, 500);
+	});
+
+	it("loads a file", function() {
+		diary.entry("I'm standing outside Brad's house #yolo");
+		diary.entry("I'm at Brad's window #yolo");
+		diary.entry("OMG. What have I done? #sorrynotsorry");
+		diary.save();
+		var dataFromFile = fs.readFileSync(diaryFile);
+		diary.diary = [];
+		diary.load();
+		expect(diary.diary).toMatch(dataFromFile);
+		setTimeout(function() {
+			fs.writeFile(diaryFile, "");
+		}, 500);
 	});
 });
