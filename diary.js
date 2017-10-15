@@ -74,12 +74,27 @@ function Diary() {
 
   this.save = () => {
     var jsonString = JSON.stringify({entries: this.data}, null, 2);
-    fs.writeFileSync('./diary.json', jsonString);
+
+    if (process.env.envType === 'test') {
+      fs.writeFileSync('./spec/support/test_diary.json', jsonString);
+    } else {
+      fs.writeFileSync('./diary.json', jsonString);
+    }
   };
 
   this.load = () => {
-    var file = JSON.parse(fs.readFileSync('./diary.json', 'utf8'));
-    this.data = file.entries;
+    var file;
+
+    if (process.env.envType === 'test') {
+      file = fs.readFileSync('./spec/support/test_diary.json', 'utf8');
+    } else {
+      file = fs.readFileSync('./diary.json', 'utf8');
+    }
+
+    if (file) {
+      file = JSON.parse(file);
+      this.data = file.entries;
+    }
   };
 }
 

@@ -1,6 +1,7 @@
 const Diary = require('../diary');
 const fs = require('fs');
 const { displayDate } = require('../helpers/date_helper');
+process.env.envType = 'test';
 
 describe('Diary', () => {
   var diary;
@@ -10,7 +11,7 @@ describe('Diary', () => {
   });
 
   afterEach(() => {
-    fs.writeFileSync('./diary.json', '');
+    fs.writeFileSync('./spec/support/test_diary.json', '');
   });
 
   describe('.entries', () => {
@@ -94,7 +95,7 @@ describe('Diary', () => {
       diary.entry('Goodbye diary!', Date.parse('5/5/2015'));
       diary.save();
       var expectedJson = { entries: [ { message: 'Goodbye diary!', date: 1430798400000, tags: [] } ] };
-      var file = fs.readFileSync('./diary.json', 'utf8');
+      var file = fs.readFileSync('./spec/support/test_diary.json', 'utf8');
       var jsonFile = JSON.parse(file);
       expect(jsonFile).toEqual(expectedJson);
     });
@@ -102,7 +103,7 @@ describe('Diary', () => {
 
   describe('.load', () => {
     it('loads all diary entries to the JSON file', () => {
-      fs.writeFileSync('./diary.json', JSON.stringify({ entries: [ { message: 'Goodbye diary!', date: 1430798400000, tags: [] } ] }, null, 2));
+      fs.writeFileSync('./spec/support/test_diary.json', JSON.stringify({ entries: [ { message: 'Goodbye diary!', date: 1430798400000, tags: [] } ] }, null, 2));
       diary.load();
       expect(diary.entries()).toEqual([ { message: 'Goodbye diary!', date: 1430798400000, tags: [] } ]);
     });
