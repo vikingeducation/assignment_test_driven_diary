@@ -9,10 +9,10 @@ Build a command line diary interface, driven and protected by a suite of compreh
 
 You can use the following arguments:
 
-- entries - (for list of diary entries)
-- entry < message > < optional dateString > - (to add a new entry)
-- tags - (for list of all tags in the current entries)
-- entriesWithTag < tagName > - (for list of all entries with given tag)
-- date < someDateString > - (for list of all entries on given date)
-- today - (for list of all entries from today)
-- search < searchTerm > - (for list of all entries that include the search term)
+- `entries` - Returns all entries
+- `entry <message> <optional dateString>` - Adds a new entry
+- `tags` - Returns all tags that were entered in entries
+- `entriesWithTag <tagName>` - Returns a list of all entries with the given tag
+- `date <someDateString>` - Returns a list of all entries from a given date
+- `today` - Returns a list of all entries from today
+- `search <searchTerm>` - Returns a list of all entries that include the search term
