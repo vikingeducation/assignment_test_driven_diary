@@ -1,0 +1,22 @@
+{
+  "name": "assignment_test_driven_diary",
+  "version": "1.0.0",
+  "description": "Build a command line diary interface, driven and protected by a suite of comprehensive tests.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine ./spec/diarySpec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asaloff/assignment_test_driven_diary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asaloff/assignment_test_driven_diary/issues"
+  },
+ "bin": {
+   "diary": "./index.js"
+ },
+  "homepage": "https://github.com/asaloff/assignment_test_driven_diary#readme"
+}
