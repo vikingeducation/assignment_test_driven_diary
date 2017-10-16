@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { displayDateAndTime } = require('./helpers/date_helper');
 
 function Diary() {
   this.data = [];
@@ -8,12 +9,14 @@ function Diary() {
   };
 
   this.entry = (message, date) => {
-    date ? date : date = Date.parse(new Date());
+    date ? date = Date.parse(date) : date = Date.parse(new Date());
 
     var tags = checkMessageForTags(message);
+    date = displayDateAndTime(date);
 
     var newEntry = { message, date, tags };
     this.data.push(newEntry);
+    return 'Entry added';
   };
 
   this.tags = () => {
@@ -39,6 +42,8 @@ function Diary() {
   };
 
   this.date = (date) => {
+    date = Date.parse(date);
+
     var applicableEntries = [];
     var targetDate = new Date(date);
 
@@ -54,7 +59,7 @@ function Diary() {
   };
 
   this.today = () => {
-    var today = Date.parse(new Date());
+    var today = new Date();
     return this.date(today);
   };
 
@@ -91,7 +96,7 @@ function Diary() {
       file = fs.readFileSync('./diary.json', 'utf8');
     }
 
-    if (file) {
+    if (file.trim()) {
       file = JSON.parse(file);
       this.data = file.entries;
     }

@@ -29,13 +29,16 @@ describe('Diary', () => {
 
     it("adds an entry with the time/date of it's creation", () => {
       diary.entry('Hello diary!');
-      expect(displayDate(diary.entries()[0].date)).toEqual(displayDate(Date.parse(new Date())));
+      var date = diary.entries()[0].date;
+      expect(date.split(' ')[0]).toEqual(displayDate(new Date()));
     });
 
     it("allows for a date to be added manually", () => {
-      var date = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT");
-      diary.entry('Hello diary!', date);
-      expect(diary.entries()[0].date).toEqual(date);
+      var date = Date.parse("Mon, 25 Dec 1995");
+      diary.entry('Hello diary!', "Mon, 25 Dec 1995");
+      var entryDate = diary.entries()[0].date;
+      var dateWithoutTime = entryDate.split(' ')[0];
+      expect(Date.parse(dateWithoutTime)).toEqual(date);
     });
 
     it("saves the tags written in the entry", () => {
@@ -63,7 +66,7 @@ describe('Diary', () => {
   describe('.today', () => {
     it('returns a list of all entries written today', () => {
       diary.entry('Hello diary! #hello #there');
-      diary.entry('Goodbye diary! #seeyou', Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
+      diary.entry('Goodbye diary! #seeyou', "Mon, 25 Dec 1995 13:30:00 GMT");
       expect(diary.today()).toEqual([diary.entries()[0]]);
     });
   });
@@ -71,8 +74,8 @@ describe('Diary', () => {
   describe('.date', () => {
     it('returns a list of all entries on the given date', () => {
       diary.entry('Hello diary! #hello #there');
-      diary.entry('Goodbye diary! #seeyou', Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
-      expect(diary.date(Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"))).toEqual([diary.entries()[1]]);
+      diary.entry('Goodbye diary! #seeyou', "Mon, 25 Dec 1995 13:30:00 GMT");
+      expect(diary.date("Mon, 25 Dec 1995 13:30:00 GMT")).toEqual([diary.entries()[1]]);
     });
   });
 
@@ -92,9 +95,9 @@ describe('Diary', () => {
 
   describe('.save', () => {
     it('saves all diary entries to the JSON file', () => {
-      diary.entry('Goodbye diary!', Date.parse('5/5/2015'));
+      diary.entry('Goodbye diary!', '5/5/2015');
       diary.save();
-      var expectedJson = { entries: [ { message: 'Goodbye diary!', date: 1430798400000, tags: [] } ] };
+      var expectedJson = { entries: [ { message: 'Goodbye diary!', date: '5/5/2015 12:00:00 AM', tags: [] } ] };
       var file = fs.readFileSync('./spec/support/test_diary.json', 'utf8');
       var jsonFile = JSON.parse(file);
       expect(jsonFile).toEqual(expectedJson);
