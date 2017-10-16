@@ -1,14 +1,16 @@
 const fs = require('fs');
 const { displayDateAndTime } = require('./helpers/date_helper');
 
-function Diary() {
-  this.data = [];
+class Diary {
+  constructor() {
+    this.data = [];
+  }
 
-  this.entries = () => {
+  entries() {
     return this.data;
-  };
+  }
 
-  this.entry = (message, date) => {
+  entry(message, date) {
     date = Date.parse(date || new Date());
 
     var tags = checkMessageForTags(message);
@@ -17,9 +19,9 @@ function Diary() {
     var newEntry = { message, date, tags };
     this.data.push(newEntry);
     return 'Entry added';
-  };
+  }
 
-  this.tags = () => {
+  tags() {
     var tags = [];
 
     this.entries().forEach((entry) => {
@@ -27,9 +29,9 @@ function Diary() {
     });
 
     return [].concat.apply([], tags);
-  };
+  }
 
-  this.entriesWithTag = (tag) => {
+  entriesWithTag(tag) {
     var applicableEntries = [];
 
     this.data.forEach((entry) => {
@@ -39,9 +41,9 @@ function Diary() {
     });
 
     return applicableEntries;
-  };
+  }
 
-  this.date = (date) => {
+  date(date) {
     date = Date.parse(date);
 
     var applicableEntries = [];
@@ -56,28 +58,28 @@ function Diary() {
     });
 
     return applicableEntries;
-  };
+  }
 
-  this.today = () => {
+  today() {
     var today = new Date();
     return this.date(today);
-  };
+  }
 
-  this.search = (term) => {
+  search(term) {
     term = term.toLowerCase();
     var applicableEntries = [];
 
     this.data.forEach((entry) => {
-      message = entry.message.toLowerCase();
+      var message = entry.message.toLowerCase();
       if (message.indexOf(term) !== -1) {
         applicableEntries.push(entry);
       }
     });
 
     return applicableEntries;
-  };
+  }
 
-  this.save = () => {
+  save() {
     var jsonString = JSON.stringify({entries: this.data}, null, 2);
 
     if (process.env.envType === 'test') {
@@ -85,9 +87,9 @@ function Diary() {
     } else {
       fs.writeFileSync('./diary.json', jsonString);
     }
-  };
+  }
 
-  this.load = () => {
+  load() {
     var file;
 
     if (process.env.envType === 'test') {
@@ -100,7 +102,7 @@ function Diary() {
       file = JSON.parse(file);
       this.data = file.entries;
     }
-  };
+  }
 }
 
 var checkMessageForTags = (message) => {
