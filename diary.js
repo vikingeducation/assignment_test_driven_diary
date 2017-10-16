@@ -9,7 +9,7 @@ function Diary() {
   };
 
   this.entry = (message, date) => {
-    date ? date = Date.parse(date) : date = Date.parse(new Date());
+    date = Date.parse(date || new Date());
 
     var tags = checkMessageForTags(message);
     date = displayDateAndTime(date);

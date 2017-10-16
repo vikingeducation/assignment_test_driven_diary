@@ -16,8 +16,8 @@ if (!command || command === 'data' || command === 'help' || command === '--help'
     '3. tags - (for list of all tags in the current entries)\n' +
     '4. entriesWithTag < tagName > - (for list of all entries with given tag)\n' +
     '5. date < someDateString > - (for list of all entries on given date)\n' +
-    '5. today - (for list of all entries from today)\n' +
-    '5. search < searchTerm > - (for list of all entries that include the search term)\n'
+    '6. today - (for list of all entries from today)\n' +
+    '7. search < searchTerm > - (for list of all entries that include the search term)\n'
   );
 } else {
   console.log(diary[command](args[0], args[1]));
