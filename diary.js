@@ -39,10 +39,12 @@ Diary.prototype.entriesWithTag = function(tag) {
 
 Diary.prototype.today = function() {
   const todaysDate = new Date();
+  let dateObj;
   let results = [];
 
   this.entries.forEach(item => {
-    if (item.createTime.toDateString() === todaysDate.toDateString()) {
+    dateObj = new Date(item.createTime);
+    if (dateObj.toDateString() === todaysDate.toDateString()) {
       results.push(item.message);
     }
   });
@@ -52,9 +54,11 @@ Diary.prototype.today = function() {
 
 Diary.prototype.date = function(date) {
   let results = [];
+  let dateObj;
 
   this.entries.forEach(item => {
-    if (item.createTime.toDateString() === date.toDateString()) {
+    dateObj = new Date(item.createTime);
+    if (dateObj.toDateString() === date.toDateString()) {
       results.push(item.message);
     }
   });

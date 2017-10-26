@@ -110,7 +110,7 @@ describe("Diary", function() {
 
     diary.entry('Today, Brad accidentally touched my hand in the hallway.');
     diary.entry('Brad is a dreamboat. #sigh');
-    diary.entry('My dad is sooo annoying.', Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
+    diary.entry('My dad is sooo annoying.', new Date('10/10/2017'));
 
     it('saves entries to a file', function() {
       diary.save('../diary.json');
