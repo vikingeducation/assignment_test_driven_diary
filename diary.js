@@ -9,7 +9,7 @@ Diary.prototype.entry = function(input, date) {
   if (date) {
     entry.createTime = date;
   } else {
-    entry.createTime = Date.now();
+    entry.createTime = new Date();
   }
 
 
@@ -32,6 +32,42 @@ Diary.prototype.entriesWithTag = function(tag) {
     if (item.tag === tag) results.push(item.message);
   });
 
+  return results;
+};
+
+Diary.prototype.today = function() {
+  const todaysDate = new Date();
+  let results = [];
+
+  this.entries.forEach(item => {
+    if (item.createTime.toDateString() === todaysDate.toDateString()) {
+      results.push(item.message);
+    }
+  });
+
+  return results;
+};
+
+Diary.prototype.date = function(date) {
+  let results = [];
+
+  this.entries.forEach(item => {
+    if (item.createTime.toDateString() === date.toDateString()) {
+      results.push(item.message);
+    }
+  });
+
+  return results;
+};
+
+Diary.prototype.search = function(input) {
+  var results = [];
+
+  this.entries.forEach(item => {
+    if (item.message.match(input)) {
+      results.push(item.message);
+    }
+  });
   return results;
 };
 

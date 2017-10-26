@@ -10,11 +10,11 @@ describe("Diary", function() {
       expect(result.message).toEqual('Brad is everything to me.');
     });
 
-    // shows a diff of 1 second, so fails
-    // it('adds an entry with an emoji with implicit date ', function() {
-    //   const result = diary.entry('<3 Braaaaad <3');
-    //   expect(result.createTime).toEqual(Date.now());
-    // });
+    // this test works or fails based on the difference of a second
+    it('adds an entry with an emoji with implicit date ', function() {
+      const result = diary.entry('<3 Braaaaad <3');
+      expect(result.createTime).toEqual(new Date());
+    });
 
     it('with date', function() {
       const result = diary.entry(
@@ -62,7 +62,47 @@ describe("Diary", function() {
       const results = diary.entriesWithTag('yolo');
       expect(results).toEqual( ["I'm standing outside Brad's house. #yolo", "I'm at Brad's window. #yolo"] );
     })
-
   });  
+
+  describe('today method', function() {
+    let diary= new Diary();
+
+    diary.entry('Brad!', new Date('10/10/2017'));
+    diary.entry('Brad, Brad', new Date('10/10/2017'));
+    diary.entry('Braaaad!');
+    diary.entry('Braaaad, Braaaad');
+
+    it('lists all entries for today', function() {
+      expect(diary.today()).toEqual(['Braaaad!', 'Braaaad, Braaaad']);
+    });
+  });
+
+  describe('date method', function() {
+    let diary = new Diary();
+
+    diary.entry('Brad!', new Date('10/10/2017'));
+    diary.entry('Brad, Brad', new Date('10/10/2017'));
+    diary.entry('Braaaad!', new Date('10/10/2017'));
+    diary.entry('Braaaad, Braaaad', new Date('10/26/2017'));
+
+    it('lists all entries for the given date', function() {
+      const results = diary.date(new Date('10/10/2017'));
+      expect(results).toEqual(['Brad!', 'Brad, Brad', 'Braaaad!']);
+    });
+  });
+
+  describe('search method', function() {
+    let diary = new Diary();
+
+    diary.entry('Today, Brad accidentally touched my hand in the hallway.');
+    diary.entry('Brad is a dreamboat. #sigh');
+    diary.entry('My dad is sooo annoying.');
+
+    it('lists all entries for the given string', function() {
+      const results = diary.search('Brad');
+      expect(results).toEqual(['Today, Brad accidentally touched my hand in the hallway.', 'Brad is a dreamboat. #sigh']);
+    });
+  });
+
 
 });  
