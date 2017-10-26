@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 let Diary = function() {
   this.entries = [];
   this.tags = [];
@@ -70,5 +72,21 @@ Diary.prototype.search = function(input) {
   });
   return results;
 };
+
+Diary.prototype.save = function(filename) {
+  fs.writeFileSync( filename, 
+    JSON.stringify({
+      entries: this.entries,
+      tags: this.tags
+    })
+  );
+};
+
+Diary.prototype.load = function(filename) {
+  let result = JSON.parse(fs.readFileSync(filename, 'utf8'));
+  this.entries = result.entries;
+  this.tags = result.tags;
+};
+
 
 module.exports = Diary;

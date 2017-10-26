@@ -1,4 +1,5 @@
-let Diary = require('../diary');
+const Diary = require('../diary');
+const fs = require('fs');
 
 describe("Diary", function() {
 
@@ -104,5 +105,29 @@ describe("Diary", function() {
     });
   });
 
+  describe('save method', function() {
+    let diary = new Diary();
+
+    diary.entry('Today, Brad accidentally touched my hand in the hallway.');
+    diary.entry('Brad is a dreamboat. #sigh');
+    diary.entry('My dad is sooo annoying.', Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
+
+    it('saves entries to a file', function() {
+      diary.save('../diary.json');
+      let result = JSON.parse(fs.readFileSync('../diary.json', 'utf8'));
+      expect(result.entries[0].message).toEqual('Today, Brad accidentally touched my hand in the hallway.');
+      expect(result.tags[0]).toEqual('sigh');
+    });
+  });
+
+  describe('load method', function() {
+    it('loads entries from a file', function() {
+      let diary = new Diary();
+
+      diary.load('../diary.json');
+      expect(diary.entries[2].message).toEqual('My dad is sooo annoying.');
+      expect(diary.tags[0]).toEqual('sigh');
+    });
+  });
 
 });  
