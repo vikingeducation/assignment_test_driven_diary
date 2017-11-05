@@ -1,4 +1,4 @@
-const Diary = require('../src/index.js');
+const Diary = require('../src/diary.js');
 const fs = require('fs');
 
 
@@ -68,9 +68,10 @@ describe('Diary', () => {
       diary.entry("Brad is a dreamboat.");
       diary.entry("My dad is sooo annoying.");
 
-      diary.save('./src/diary.json');
-      const JSONcontents = fs.readFileSync('./src/diary.json', 'utf8');
+      diary.save('../src/diary.json');
+      const JSONcontents = fs.readFileSync('../src/diary.json', 'utf8');
       const contents = JSON.parse(JSONcontents);
+
       expect(contents.logs[0].log).toEqual("Today, Brad accidentally touched my hand in the hallway.")
       expect(contents.logs[1].log).toEqual("Brad is a dreamboat.")
       expect(contents.logs[2].log).toEqual("My dad is sooo annoying.")
@@ -79,15 +80,12 @@ describe('Diary', () => {
 
   describe('.load', () => {
     it('loads the diary object with data from the given file', () => {
-      const JSONcontents = fs.readFileSync('./src/diary.json', 'utf8');
-      const contents = JSON.parse(JSONcontents);
+      const contents = diary.load('../src/diary.json');
 
-      diary.logs = contents.logs;
+      diary.logs = contents;
       expect(diary.logs[0].log).toEqual("Today, Brad accidentally touched my hand in the hallway.");
       expect(diary.logs[1].log).toEqual("Brad is a dreamboat.");
       expect(diary.logs[2].log).toEqual("My dad is sooo annoying.");
     });
   })
-
-
 });

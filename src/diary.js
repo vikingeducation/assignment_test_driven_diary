@@ -1,5 +1,6 @@
 const fs = require('fs');
 
+
 class Diary {
   constructor() {
     this.logs = [];
@@ -68,6 +69,13 @@ class Diary {
     fs.writeFileSync(filePath, JSON.stringify({
       logs: this.logs
     }, null, 2));
+  }
+
+  load(filePath) {
+    const result = fs.readFileSync(filePath);
+    const logsArr = JSON.parse(result).logs;
+    this.logs = logsArr;
+    return logsArr;
   }
 }
 
