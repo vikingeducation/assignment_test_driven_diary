@@ -20,5 +20,14 @@ class Diary {
 
 }
 
-
+const identityTags = body => {
+  var r = RegExp(/\B\#\w+/g);
+  let matches = body.match(r);
+  if (matches) {
+    let tags = matches.map(function(tag) {
+      return tag.substring(1);
+    });
+    return tags;
+  }
+}
 module.exports = Diary;
