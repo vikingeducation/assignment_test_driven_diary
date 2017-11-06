@@ -12,8 +12,12 @@ class Diary {
       this.entries.push(entryObject);
     } else{
     this.entries.push(string)
+    }
   }
+  entries(){
+    return this.entries
   }
+
 }
 
 

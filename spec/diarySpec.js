@@ -18,5 +18,12 @@ describe('Check all the behaviours of the diary', () => {
       console.log(results)
       expect(results[0].date).toEqual(time)
     });
+    it('should print out all the entries', () => {
+      let diary = new Diary();
+      diary.entry("1st entry");
+      diary.entry("2nd entry");
+      const results = diary.entries
+      expect(results).toEqual(['1st entry', '2nd entry'])
+    });
   })
 })
