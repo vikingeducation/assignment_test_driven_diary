@@ -13,28 +13,29 @@ const identifyTags = string => {
 class Diary {
   constructor() {
     this.entries = []
-    this.tags = new Set()
+    this.tags = []
   }
 
   entry(string, date){
-    let tags = identifyTags(string)
-    if(tags){
-      this.tags.add(tags)
+    let tag = identifyTags(string)
+    if(tag){
+      console.log(tag)
+      this.tags.push(tag[0])
     }
     if (date){
       let entryObject = {
         date,
         string
       }
-      if (tags){
-        entryObject.tags = tags
+      if (tag){
+        entryObject.tag = tag
       }
       this.entries.push(entryObject);
     } else {
-      if (tags){
+      if (tag){
         let entryObject = {
           string,
-          tags
+          tag
         };
         this.entries.push(string)
       }
@@ -47,7 +48,7 @@ class Diary {
   }
 
   tags(){
-    return [...this.tags]
+    return this.tags
   }
 
   entriesWithTag(tag){
@@ -70,6 +71,7 @@ class Diary {
         results.push(entry.string)
       }
     })
+    console.log(results)
     return results;
   }
 
@@ -77,6 +79,7 @@ class Diary {
     let searchDate = input
     let results = []
     this.entries.forEach(entry => {
+
       if (entry.date === searchDate){
         results.push(entry.string)
       }
@@ -87,9 +90,10 @@ class Diary {
   search(string){
     let results = []
     this.entries.forEach( entry => {
-      if (entry.string){
-        if (entry.string.match(string)){
-          results.push(entry.string);
+      if (entry){
+        if (entry.match(string)){
+            console.log(entry)
+          results.push(entry);
         }
       }
     })
@@ -118,4 +122,22 @@ class Diary {
 //     return tags;
 //   }
 // }
+
+// let diary = new Diary()
+// diary.entry( 'hi #milo')
+// console.log(diary.entries)
+// console.log(diary.tags)
+//
+// diary.entry("z", todayDate)
+// diary.entry("s", todayDate)
+// diary.entry("b", 23)
+// let results = diary.today()
+// console.log(results)
+let search = new Diary()
+search.entry("milo is cool");
+search.entry("milo is the best");
+search.entry("no one")
+let results = search.search("milo");
+
+console.log(results)
 module.exports = Diary;

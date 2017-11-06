@@ -33,9 +33,10 @@ describe('Check all the behaviours of the diary', () => {
     diary.entry("OMG. What have I done? #sorrynotsorry");
     diary.entry("fast", 2)
     diary.entry("slow", 2)
+    let tags = diary.tags
 
     it('it can retrieve the list of tags', () => {
-      let results = diary.tags()
+      let results = diary.tags
       expect(results).toEqual(["yolo", "sorrynotsorry"])
     });
     it('it can retrieve entries with tags', () => {
@@ -48,7 +49,7 @@ describe('Check all the behaviours of the diary', () => {
       todayDiary.entry("z", todayDate)
       todayDiary.entry("s", todayDate)
       todayDiary.entry("b", 23)
-      let results = todayDiary.today()
+      let results = todayDiary.today
       expect(results).toEqual(["z", "m"])
     });
     it('it can retrieve entries with a specific date', () => {
