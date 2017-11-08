@@ -7,22 +7,15 @@ describe('Check all the behaviours of the diary', () => {
     it('it allows a single entry', () => {
       let diary = new Diary();
       diary.entry("1st entry");
-      const results = diary.entries
+      const results = diary.entries()
       expect(results).toEqual(['1st entry'])
     });
-    it('it allows a single entry with a timestamp', () => {
-      let diary = new Diary();
-      let time = Date.parse("Mon, 25 Dec 1995 13:30:00 GMT")
-      diary.entry("Brad. Brad. Brad. Brad. Brad.", time);
-      const results = diary.entries
-      console.log(results)
-      expect(results[0].date).toEqual(time)
-    });
+
     it('should print out all the entries', () => {
       let diary = new Diary();
       diary.entry("1st entry");
       diary.entry("2nd entry");
-      const results = diary.entries
+      const results = diary.entries()
       expect(results).toEqual(['1st entry', '2nd entry'])
     });
   })
@@ -33,10 +26,9 @@ describe('Check all the behaviours of the diary', () => {
     diary.entry("OMG. What have I done? #sorrynotsorry");
     diary.entry("fast", 2)
     diary.entry("slow", 2)
-    let tags = diary.tags
 
     it('it can retrieve the list of tags', () => {
-      let results = diary.tags
+      let results = diary.tags()
       expect(results).toEqual(["yolo", "sorrynotsorry"])
     });
     it('it can retrieve entries with tags', () => {
@@ -47,9 +39,9 @@ describe('Check all the behaviours of the diary', () => {
       let todayDiary = new Diary()
       let todayDate = Date.now()
       todayDiary.entry("z", todayDate)
-      todayDiary.entry("s", todayDate)
+      todayDiary.entry("m", todayDate)
       todayDiary.entry("b", 23)
-      let results = todayDiary.today
+      let results = todayDiary.today()
       expect(results).toEqual(["z", "m"])
     });
     it('it can retrieve entries with a specific date', () => {
