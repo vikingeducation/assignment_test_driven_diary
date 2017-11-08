@@ -1,3 +1,4 @@
+const fs = require('fs');
 // const diary = require('./diary.json');
 
 function _findTags(text) {
@@ -45,6 +46,55 @@ class Diary {
       }
     });
     return taggedEntries;
+  }
+  today() {
+    // const now = new Date();
+    const today = new Date().toDateString();
+    const entries = this.diary.entries;
+    const todaysEntries = [];
+    entries.forEach(entry => {
+      const dayOfEntry = new Date(entry.timeOfEntry).toDateString();
+      if (dayOfEntry === today) {
+        todaysEntries.push(entry);
+      }
+    });
+    return todaysEntries;
+  }
+  date(date) {
+    const requestedDayOfEntry = new Date(date).toDateString();
+    const entries = this.diary.entries;
+    const datedEntries = [];
+    entries.forEach(entry => {
+      const dayOfEntry = new Date(entry.timeOfEntry).toDateString();
+      if (dayOfEntry === requestedDayOfEntry) {
+        datedEntries.push(entry);
+      }
+    });
+    return datedEntries;
+  }
+  search(query) {
+    const entries = this.diary.entries;
+    const entriesWithQuery = [];
+    entries.forEach(entry => {
+      if (entry.entryText.includes(query)) {
+        entriesWithQuery.push(entry);
+      }
+    });
+    return entriesWithQuery;
+  }
+  save(path) {
+    // const data = JSON.stringify(this.diary, null, 2);
+    const data = JSON.stringify(this.diary);
+    fs.writeFile(path, data, 'utf8', err => {
+      if (err) throw err;
+    });
+    return 'Diary saved.';
+  }
+  load(path) {
+    const data = fs.readFileSync(path, 'utf8');
+    const dictionary = JSON.parse(data);
+    this.dictionary = dictionary;
+    return dictionary;
   }
 }
 

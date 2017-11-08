@@ -44,5 +44,42 @@ describe('Diary', function() {
       expect(entries.length).toBeGreaterThan(1);
     });
   });
-  // describe('.load', path => {});
+
+  describe('.today', () => {
+    it('returns a list of all entries written today', function() {
+      const entries = diary.today();
+      expect(entries.length).toBeGreaterThan(3);
+    });
+  });
+
+  describe('.date', () => {
+    it('returns a list of all entries written on given date', function() {
+      const entries = diary.date(Date.parse('12/25/95'));
+      expect(entries.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('.search', () => {
+    it('returns a list of all entries with given string', function() {
+      diary.entry('Today, Brad accidentally touched my hand in the hallway.');
+      diary.entry('Brad is a dreamboat.');
+      diary.entry('My dad is sooo annoying.');
+      const entries = diary.search('Brad');
+      expect(entries.length).toBeGreaterThan(5);
+    });
+  });
+
+  describe('.save', () => {
+    xit('persists the current state of diary to given file', function() {
+      const reply = diary.save('./diary.json');
+      expect(reply).toEqual('Diary saved.');
+    });
+  });
+
+  describe('.load', () => {
+    it('loads the diary object stored in given file', function() {
+      const dictionary = diary.load('./diary.json');
+      expect(dictionary).not.toBe(undefined);
+    });
+  });
 });
