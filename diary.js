@@ -1,5 +1,4 @@
 const fs = require('fs');
-// const diary = require('./diary.json');
 
 function _findTags(text) {
   const words = text.split(' ');
@@ -11,9 +10,23 @@ function _findTags(text) {
   });
   return tags;
 }
+
 class Diary {
-  constructor(diary) {
+  // constructor(diary) {
+  //   this.diary = diary;
+  // }
+  load(path) {
+    const data = fs.readFileSync(path, 'utf8');
+    const diary = JSON.parse(data);
     this.diary = diary;
+    // return diary;
+  }
+  save(path) {
+    const data = JSON.stringify(this.diary, null, 2);
+    fs.writeFile(path, data, 'utf8', err => {
+      if (err) throw err;
+    });
+    return 'Diary saved.';
   }
   entry(text, date = Date.now()) {
     const tags = _findTags(text);
@@ -48,7 +61,6 @@ class Diary {
     return taggedEntries;
   }
   today() {
-    // const now = new Date();
     const today = new Date().toDateString();
     const entries = this.diary.entries;
     const todaysEntries = [];
@@ -81,20 +93,6 @@ class Diary {
       }
     });
     return entriesWithQuery;
-  }
-  save(path) {
-    // const data = JSON.stringify(this.diary, null, 2);
-    const data = JSON.stringify(this.diary);
-    fs.writeFile(path, data, 'utf8', err => {
-      if (err) throw err;
-    });
-    return 'Diary saved.';
-  }
-  load(path) {
-    const data = fs.readFileSync(path, 'utf8');
-    const dictionary = JSON.parse(data);
-    this.dictionary = dictionary;
-    return dictionary;
   }
 }
 
