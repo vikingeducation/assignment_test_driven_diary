@@ -1,3 +1,6 @@
+const fs = require("fs");
+
+
 const identifyTags = string => {
   var r = RegExp(/\B\#\w+/g);
   let matches = string.match(r);
