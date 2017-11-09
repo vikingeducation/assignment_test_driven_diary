@@ -1,4 +1,4 @@
-const Diary = require('../diary.js');
+const Diary = require('../src/diary');
 
 describe('Diary', function() {
   let diary = new Diary();
@@ -13,22 +13,21 @@ describe('Diary', function() {
   describe('.entry', () => {
     xit("adds an entry to the user's diary", function() {
       const reply = diary.entry('Brad is everything to me.');
-      expect(reply).toEqual('Entry added.');
+      expect(reply).toEqual(['Duly noted!']);
     });
     xit('takes an optional date argument', function() {
       const reply = diary.entry(
         'Brad. Brad. Brad. Brad. Brad.',
         Date.parse('Mon, 25 Dec 1995 13:30:00 GMT')
       );
-      expect(reply).toEqual('Entry added.');
+      expect(reply).toEqual('Duly noted!');
     });
   });
 
   describe('.entries', () => {
     xit('returns a list of all entries', function() {
       const entries = diary.entries();
-      console.log(entries);
-      expect(entries).not.toBe(null);
+      expect(entries.length).toBeGreaterThan(0);
     });
   });
 
@@ -45,20 +44,20 @@ describe('Diary', function() {
   describe('.entriesWithTag', () => {
     xit('returns a list of every entry with the tag', function() {
       const entries = diary.entriesWithTag('yolo');
-      expect(entries.length).toBeGreaterThan(1);
+      expect(entries.length).toBeGreaterThan(0);
     });
   });
 
   describe('.today', () => {
     xit('returns a list of all entries written today', function() {
       const entries = diary.today();
-      expect(entries.length).toBeGreaterThan(3);
+      expect(entries.length).toBeGreaterThan(0);
     });
   });
 
   describe('.date', () => {
     xit('returns a list of all entries written on given date', function() {
-      const entries = diary.date(Date.parse('12/25/95'));
+      const entries = diary.date('12/25/95');
       expect(entries.length).toBeGreaterThan(0);
     });
   });
@@ -69,7 +68,7 @@ describe('Diary', function() {
       diary.entry('Brad is a dreamboat.');
       diary.entry('My dad is sooo annoying.');
       const entries = diary.search('Brad');
-      expect(entries.length).toBeGreaterThan(5);
+      expect(entries.length).toBeGreaterThan(1);
     });
   });
 
