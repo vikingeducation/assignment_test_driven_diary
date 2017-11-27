@@ -13,7 +13,11 @@ describe("entries", () => {
     expect(diary.entries().length).toEqual(1);
   })
 
-  
+  it("makes a new tag", () => {
+    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm at Brad's window #yolo");
+    expect(diary.tags()).toEqual(['yolo']);
+  })
 
 
 
