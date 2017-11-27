@@ -1,6 +1,6 @@
 const Diary = require('./diary.js');
 
-describe("entries", () => {
+describe("diary", () => {
 
   let diary;
   beforeEach(() => {
@@ -24,10 +24,11 @@ describe("entries", () => {
     diary.entry("I'm at Brad's window #yolo");
 
     expect(diary.entriesWithTag("yolo")).toEqual(
-     ["I'm standing outside Brad's house #yolo", 
-       "I'm at Brad's window #yolo"]
+      ["I'm standing outside Brad's house #yolo",
+        "I'm at Brad's window #yolo"
+      ]
     )
- 
+
   })
 
   it("Outputs all entries written today", () => {
@@ -35,9 +36,33 @@ describe("entries", () => {
     diary.entry("I'm at Brad's window");
 
     expect(diary.today()).toEqual(
-     ["I'm standing outside Brad's house #yolo", 
-       "I'm at Brad's window"]
+      ["I'm standing outside Brad's house #yolo",
+        "I'm at Brad's window"
+      ]
     )
+  })
+
+  it("Outputs all entries written on the given date", () => {
+    diary.entry("I'm standing outside Brad's house #yolo", Date.parse("Mon, 25 Dec 1995 13:30:00 GMT"));
+
+    expect(diary.date(Date.parse("12/25/95"))).toEqual(
+      ["I'm standing outside Brad's house #yolo"]
+    )
+  })
+
+  it("returns a list of entries with the given search string", () => {
+    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm at Brad's window");
+    diary.entry("My dad is so annoying");
+    diary.entry("Vlad has too many tattoos");
+    expect(diary.search("Brad")).toEqual(["I'm standing outside Brad's house #yolo", "I'm at Brad's window"])
+  })
+
+  it("saves diary entries to a file", () => {
+    diary.entry("I'm standing outside Brad's house #yolo");
+    diary.entry("I'm at Brad's window");
+    diary.save('./diary.txt');
+    expect(fs.existsSync('./diary.txt')).toEqual(true);
   })
 
 

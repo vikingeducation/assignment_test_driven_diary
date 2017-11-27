@@ -1,8 +1,11 @@
+const fs = require('fs');
+
+
 class Diary {
   constructor() {
     this.store = [];
     this.tagsStore = [];
-    this.DAY_MILLISECONDS = 1000*60*60*24;
+    this.DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
   }
 
   entry(string, date = new Date()) {
@@ -17,7 +20,7 @@ class Diary {
     this.store.push({
       entry: string,
       date: date,
-      tag: tag 
+      tag: tag
     });
 
   }
@@ -35,17 +38,40 @@ class Diary {
       if (entryObj.tag == hashtag) {
         return entryObj.entry;
       }
-    }) 
+    })
   }
 
   today() {
     const today = new Date();
     return this.store.map((entryObj) => {
-      if (today.getTime() - entryObj.date.getTime() < this.DAY_MILLISECONDS) {
+      if (today - entryObj.date < this.DAY_MILLISECONDS) {
         return entryObj.entry;
       }
-    })   
+    })
   }
+
+  date(targetDate) {
+    return this.store.map((entryObj) => {
+      if (targetDate - entryObj.date < this.DAY_MILLISECONDS) {
+        return entryObj.entry;
+      }
+    })
+  }
+
+  search(searchTerm) {
+    return this.entries()
+      .map(entryObj => entryObj.entry)
+      .filter(entry => {
+        let regex = new RegExp(searchTerm);
+        return regex.test(entry);
+      })
+  }
+
+  save(path) {
+    fs.writeFileSync();
+  }
+
+
 }
 
 module.exports = Diary;
