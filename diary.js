@@ -8,16 +8,28 @@ class Diary {
   entry(string, date) {
     if (date === undefined) {
       date = new Date();
-      date = date.toString('yyyy-MM-dd');
+      // date = date.toString('yyyy-MM-dd');
     }
     let tag = string.split('#')[1];
-    this.entries.push({ data: date, message: string, tag: tag });
+    date = Date.parse(date);
+    this.entries.push({ date: date, message: string, tag: tag });
   }
-  entries() {
-    return this.entries;
+  getEntries() {
+    return this.entries.map(obj => obj.message);
   }
-  tags(){
-    return this.entries.map((object) => {return object.tag})
+  tags() {
+    return this.entries.map(object => {
+      return object.tag;
+    });
+  }
+  entriesWithTag(tag) {
+    let array = this.entries.filter(obj => {
+      if (obj.tag === tag) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
   // entry: string => {
   //   fs.readFile('./diary.json', 'utf8', (err, data) => {
