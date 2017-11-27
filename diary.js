@@ -7,14 +7,17 @@ class Diary {
   }
   entry(string, date) {
     if (date === undefined) {
-      data = new Date();
+      date = new Date();
       date = date.toString('yyyy-MM-dd');
     }
-    tag = string.split('#')[1];
+    let tag = string.split('#')[1];
     this.entries.push({ data: date, message: string, tag: tag });
   }
   entries() {
     return this.entries;
+  }
+  tags(){
+    return this.entries.map((object) => {return object.tag})
   }
   // entry: string => {
   //   fs.readFile('./diary.json', 'utf8', (err, data) => {
