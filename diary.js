@@ -17,6 +17,6 @@ const Diary = {
   }
 };
 
-// module.exports = diary;
+module.exports = Diary;
 
-Diary.entry('Steve & Jeff');
+//Diary.entry("sldjfskd")

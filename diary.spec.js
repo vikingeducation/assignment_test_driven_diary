@@ -2,7 +2,7 @@ const diary = require('./diary.js');
 const fs = require('fs');
 
 describe('The diary', () => {
-  it('can access diary', () => {
+  xit('can access diary', () => {
     fs.readFile('./diary.json', 'utf8', (err, data) => {
       if (err) throw err;
       expect(JSON.parse(data)).toEqual({});
@@ -10,12 +10,13 @@ describe('The diary', () => {
   });
 
   it('adds an entry to the diary file', () => {
-    diary.entry('');
+    diary.entry('test');
     fs.readFile('./diary.json', 'utf8', (err, data) => {
       if (err) throw err;
       data = JSON.parse(data);
       let entryNumber = Object.keys(data).length - 1;
-      expect(data[entryNumber]).toEqual('');
+      expect(data[entryNumber]).toEqual('test');
+      //delete data[entryNumber]// fs.writefile
     });
   });
 
