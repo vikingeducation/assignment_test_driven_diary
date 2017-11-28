@@ -1,4 +1,5 @@
 const Diary = require('./diary.js');
+const fs = require('fs');
 
 describe("diary", () => {
 
@@ -58,12 +59,28 @@ describe("diary", () => {
     expect(diary.search("Brad")).toEqual(["I'm standing outside Brad's house #yolo", "I'm at Brad's window"])
   })
 
-  it("saves diary entries to a file", () => {
-    diary.entry("I'm standing outside Brad's house #yolo");
-    diary.entry("I'm at Brad's window");
-    diary.save('./diary.txt');
-    expect(fs.existsSync('./diary.txt')).toEqual(true);
-  })
+  describe("file I/O", () => {
+    beforeEach(() => {
+      diary.entry("I'm standing outside Brad's house #yolo");
+      diary.entry("I'm at Brad's window");
+    })
 
+    afterEach(() => {
+      fs.unlinkSync("./diary.txt");
+    })
+
+    it("saves diary entries to a file", () => {
+      diary.save('./diary.txt');
+      expect(fs.existsSync('./diary.txt')).toEqual(true);
+    })
+
+    it("loads diary entries to the diary", () => {
+      diary.save("./diary.txt");
+      let newDiary = new Diary(); 
+      newDiary.load('./diary.txt');
+      expect(newDiary.entries().length).toEqual(2);
+    })
+
+  })
 
 })

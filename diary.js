@@ -1,20 +1,17 @@
 const fs = require('fs');
+const _ = require("underscore")
 
+const DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 class Diary {
   constructor() {
     this.store = [];
-    this.tagsStore = [];
-    this.DAY_MILLISECONDS = 1000 * 60 * 60 * 24;
   }
 
   entry(string, date = new Date()) {
     let tag;
-    if (string.indexOf('#') > -1) {
+    if (string.split('').includes('#')) {
       tag = string.split('#')[1];
-      if (!this.tagsStore.includes(tag)) {
-        this.tagsStore.push(tag)
-      }
     }
 
     this.store.push({
@@ -23,6 +20,8 @@ class Diary {
       tag: tag
     });
 
+    return "Duly Noted!";
+
   }
 
   entries() {
@@ -30,7 +29,7 @@ class Diary {
   }
 
   tags() {
-    return this.tagsStore;
+    return _.uniq(this.store.map(entryObj => entryObj.tag));
   }
 
   entriesWithTag(hashtag) {
@@ -44,7 +43,7 @@ class Diary {
   today() {
     const today = new Date();
     return this.store.map((entryObj) => {
-      if (today - entryObj.date < this.DAY_MILLISECONDS) {
+      if (today - entryObj.date < DAY_MILLISECONDS) {
         return entryObj.entry;
       }
     })
@@ -52,7 +51,7 @@ class Diary {
 
   date(targetDate) {
     return this.store.map((entryObj) => {
-      if (targetDate - entryObj.date < this.DAY_MILLISECONDS) {
+      if (targetDate - entryObj.date < DAY_MILLISECONDS) {
         return entryObj.entry;
       }
     })
@@ -68,10 +67,35 @@ class Diary {
   }
 
   save(path) {
-    fs.writeFileSync();
+    fs.writeFileSync(path, JSON.stringify(this.store, null, 2));
   }
 
+  load(path) {
+    this.store = JSON.parse(fs.readFileSync(path, 'utf8'));
+  }
 
 }
 
 module.exports = Diary;
+
+// ------------------------ CLI Application ------------------------
+
+console.log(process.argv[0])
+
+if (process.argv[0] === "/usr/local/heroku/bin/node") {
+
+let diary = new Diary();
+
+if (process.argv.length < 4) {
+  console.error("Too few arguments")
+}
+
+if (fs.existsSync("./diary.txt")) {
+  diary.load("./diary.txt");
+}
+console.log(
+  diary[process.argv[2]](process.argv[3])
+)
+diary.save("./diary.txt");
+
+}
