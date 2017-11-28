@@ -92,7 +92,7 @@ describe('diaryMega', () => {
       let x = new Promise( (resolve, reject) => {
       let execArray = exec(`../diary.js tag yolo`);
       exec(`../diary.js entry "I can't believe Brad is gone... #yolo"`);
-      resolve (`{diary.entryArr[0].body}${execArray.toString()}`);
+      resolve (`${diary.entryArr[0].body}${execArray.toString()}`);
       });
       x
       .then(data => {expect(`${execEntry}${resultsArray.toString()}`).toMatch(
