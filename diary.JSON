@@ -1,0 +1,1 @@
+{"entryArr":[{"entryTag":"","body":"this will not match","date":1511825476000},{"entryTag":"#yolo","body":"this should #yolo","date":1511825476000},{"entryTag":"","body":"this also should not","date":1511825476000},{"entryTag":"#yolo","body":"4th time is the charm #yolo","date":1511825476000}],"tagArray":["yolo","yolo"]}
