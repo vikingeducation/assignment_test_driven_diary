@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 class Diary {
   constructor() {
     this.entryArr = [];
@@ -6,7 +8,7 @@ class Diary {
 
   entry(str, date) {
     let entryObj = {};
-    entryObj.entryTag = "";
+    entryObj.entryTag = '';
     entryObj.body = str;
     if (date) entryObj.date = date;
     else {
@@ -14,9 +16,9 @@ class Diary {
     }
     let splitArray;
     if (/\#/.test(entryObj.body)) {
-      splitArray = entryObj.body.split(" ");
+      splitArray = entryObj.body.split(' ');
       splitArray.map(el => {
-        if (el[0] === "#") {
+        if (el[0] === '#') {
           entryObj.entryTag = el;
           if (!this.tagArray.includes(el)) {
             this.tagArray.push(el.substring(1));
@@ -68,6 +70,29 @@ class Diary {
     });
     return dateArray;
   }
+  search(string) {
+    let resultArray = [];
+    this.entryArr.map(el => {
+      if (el.body.includes(string)) {
+        resultArray.push(el.body);
+      }
+    });
+    return resultArray;
+  }
+  save(path) {
+    const fs = require('fs');
+    fs.writeFileSync(path, JSON.stringify(this), 'utf8');
+  }
+  load(path) {
+	  const fs = require('fs');
+	  return fs.readFileSync(path, 'utf8');
+  }
 }
-
+if(process.argv.length > 3){
+let argArr = process.argv.slice(2);
+console.log(process.argv);
+console.log(argArr);
+let diary = new Diary();
+process.stdout(diary[`${argArr[0]}`](argArr.slice(1)));
+}
 module.exports = Diary;
