@@ -3,6 +3,8 @@ var Diary = require('../modules/diary')
 describe('Diary', function () {
 
   let diary
+  let pastDate = "Mon, 25 Dec 1995 13:30:00 GMT"
+  let todaysDate = new Date()
 
   beforeEach(function() {
     diary = new Diary()
@@ -54,7 +56,7 @@ describe('Diary', function () {
 
     it("takes an optional date argument", function () {
       var body = "sample body"
-      var date = "Mon, 25 Dec 1995 13:30:00 GMT"
+      var date = pastDate
 
       diary.addEntry(body)
       expect(diary.entries[0][1] <= new Date()).toBe(true)
@@ -114,9 +116,7 @@ describe('Diary', function () {
   describe('#today', function () {
     it("returns a list of all entries written today", function () {
 
-      var todaysDate = new Date()
-
-      diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
+      diary.addEntry("sample entry from the past", pastDate)
       diary.addEntry("sample entry from today", todaysDate)
 
       expect(diary.today().length).toEqual(1)
@@ -124,8 +124,15 @@ describe('Diary', function () {
   })// #today
 
   describe('#date', function () {
-    xit("returns a list of all entries written on the given date", function () {
-      expect(diary.key).toMatch(/^[a-z]+$/)
+    it("returns a list of all entries written on the given date", function () {
+      diary.addEntry("sample entry from the past", pastDate)
+      expect(diary.date("12/25/1995").length).toEqual(1)
+    })
+
+    it("returns a list of all entries written today if not date is given", function () {
+      diary.addEntry("sample entry from the past", pastDate)
+      diary.addEntry("sample entry from today")
+      expect(diary.date().length).toEqual(1)
     })
   })// #date
 
