@@ -1,30 +1,43 @@
-class Diary {
-  constructor(cipherKey) {
-    if(cipherKey != undefined && cipherKey === cipherKey.toUpperCase()) {
-      throw Error('Bad key');
-    }
-    this.cupherKey = cipherKey
-    this.key = alphabet.join('')
+var unless = require('unless')
 
+class Diary {
+  constructor() {
+    this.entries = []
+    this.tags = []
   }
 
-  entry(){}
+  addEntry(body, date){
+    date === undefined ? date = Date.now() : date = Date.parse(date);
+    this.entries.push([body, date])
+    var matches = body.split(' ').filter(word => word.startsWith('#'))
+    var uniqueTags = matches.filter(match => !this.tags.includes(match))
 
-  entries(){}
+    this.tags = this.tags.concat(uniqueTags)
+  }
 
-  entriesWithTag(tag){}
+  entriesWithTag(tagName){
+    var filteredEntries = this.entries.filter(function(entry){ return entry[0].includes(tagName) });
+    return filteredEntries
+  }
 
-  tags(){}
+  today(){
+    var now = Date.now()
+  }
 
-  today(){}
+  date(input){}
 
-  date(){}
+  search(input){}
 
-  search(){}
+  save(dir){}
 
-  save(){}
-
-  load(){}
+  load(dir){}
 }
 
+// var diary = new Diary()
+// diary.entry('mooky mook #juno #fomo')
+// diary.entry('zample clamp')
+
+// console.log(diary.entries[0].includes('mooky mook'));
+
 module.exports = Diary
+

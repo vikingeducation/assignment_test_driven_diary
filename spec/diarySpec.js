@@ -1,104 +1,170 @@
-var Diary = require('./diary');
+var Diary = require('../modules/diary')
 
-describe('#entry', function () {
-  var diary = new Diary();
+describe('Diary', function () {
 
-  xit("adds an entry to the user's diary", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
+  let diary
 
-  xit("contains the create date/time", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
+  beforeEach(function() {
+    diary = new Diary()
+  })
 
-  xit("takes an optional date argument", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #entry
+  describe('#entry', function () {
+    it("adds an entry to the user's diary", function () {
+      var body = "sample body"
+      expect(diary.entries.includes([body])).toBe(false)
+      diary.addEntry(body)
+      expect(diary.entries[0].includes(body)).toBe(true)
+    })
 
-describe('#entries', function () {
-  var diary = new Diary();
+    it("puts a copy of all hashtags in a entry into the diary's tags collection", function(){
+      var tag1 = '#tag1'
+      var tag2 = '#tag2'
+      var body = `sample body ${tag1} ${tag2}`
+      expect(diary.tags.includes(tag1)).toBe(false)
+      expect(diary.tags.includes(tag2)).toBe(false)
 
-  xit("returns a list of all entries", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #entries
+      diary.addEntry(body)
+      expect(diary.tags.includes(tag1)).toBe(true)
+      expect(diary.tags.includes(tag2)).toBe(true)
+    })
 
-describe('#tags', function () {
-  var diary = new Diary();
+    it("does not put duplicates of tags into the diary's tags collection", function(){
+      var tag1 = '#tag1'
+      var body1 = `sample body ${tag1}`
+      var body2 = `sample body ${tag1}`
 
-  xit("returns a list of all tags", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #tags
+      expect(diary.tags.includes(tag1)).toBe(false)
+      expect(diary.tags.length).toEqual(0)
 
-describe('#entriesWithTag', function () {
-  var diary = new Diary();
+      diary.addEntry(body1)
+      expect(diary.tags.includes(tag1)).toBe(true)
+      expect(diary.tags.length).toEqual(1)
 
-  xit("returns a list of all entries with tag 'yolo'", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #entriesWithTag
+      diary.addEntry(body2)
+      expect(diary.tags.length).toEqual(1)
+    })
 
-describe('#today', function () {
-  var diary = new Diary();
+    it("contains the create date/time", function () {
+      var body = "sample body"
+      var date = "Mon, 25 Dec 1995 13:30:00 GMT"
+      var createdAt = Date.now()
+      diary.addEntry(body)
+      expect(diary.entries[0].includes(createdAt)).toBe(true)
+    })
 
-  xit("returns a list of all entries written today", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #today
+    it("takes an optional date argument", function () {
+      var body = "sample body"
+      var date = "Mon, 25 Dec 1995 13:30:00 GMT"
+      var createdAt = Date.now()
 
-describe('#date', function () {
-  var diary = new Diary();
+      diary.addEntry(body)
+      expect(diary.entries[0][1] <= Date.now()).toBe(true)
 
-  xit("returns a list of all entries written on the given date", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #date
+      diary.addEntry(body, date)
+      expect(diary.entries[1][1]).toEqual(Date.parse(date))
+    })
+  })// #entry
+
+  describe('#entries', function () {
+    it("returns a list of all entries", function () {
+      var entry1 = 'entry1'
+      var entry2 = 'entry2'
+      diary.entries.push(entry1)
+      diary.entries.push(entry2)
+      expect(diary.entries).toEqual([entry1, entry2])
+    })
+  })// #entries
+
+  describe('#tags', function () {
+    it("returns a list of all tags", function () {
+      var tag1 = '#tag1'
+      var tag2 = '#tag2'
+      diary.tags.push(tag1)
+      diary.tags.push(tag2)
+      expect(diary.tags).toEqual([tag1, tag2])
+    })
+  })// #tags
+
+  describe('#entriesWithTag', function () {
+    it("returns a list of all entries with a given tag", function () {
+      var tagName = '#yolo'
+      expect(diary.entriesWithTag(tagName)).toEqual([])
+
+      var body1 = `sample body 1 ${tagName}`
+      var body2 = `sample body 2 ${tagName}`
+
+      diary.addEntry(body1)
+      diary.addEntry(body2)
+      expect(diary.entriesWithTag(tagName)[0].includes(body1) && diary.entriesWithTag(tagName)[1].includes(body2)).toEqual(true)
+    })
+
+    it("does not include entries without the given tag", function () {
+      var tagName1 = '#yolo'
+      var tagName2 = '#fomo'
+      expect(diary.entriesWithTag(tagName1).length).toEqual(0)
+
+      var body1 = `sample body 1 ${tagName1}`
+      var body2 = `sample body 2 ${tagName2}`
+
+      diary.addEntry(body1)
+      diary.addEntry(body2)
+      expect(diary.entriesWithTag(tagName1)[0].includes(body1) && !diary.entriesWithTag(tagName1)[0].includes(body2)).toEqual(true)
+    })
+  })// #entriesWithTag
+
+  describe('#today', function () {
+    it("returns a list of all entries written today", function () {
+
+      diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
+      diary.addEntry("sample entry from today", Date.now())
+
+      expect(diary.today.length).toEqual(1)
+    })
+  })// #today
+
+  describe('#date', function () {
+    xit("returns a list of all entries written on the given date", function () {
+      expect(diary.key).toMatch(/^[a-z]+$/)
+    })
+  })// #date
 
 
-describe('#search', function () {
-  var diary = new Diary();
+  describe('#search', function () {
+    xit("returns a list of all notes with the given string", function () {
+      expect(diary.key).toMatch(/^[a-z]+$/)
+    })
+  })// #search
 
-  xit("returns a list of all notes with the given string", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #search
+  describe('#save', function () {
+    xit("persists the current state of the diary to the given file", function () {
+      expect(diary.key).toMatch(/^[a-z]+$/)
+    })
+  })// #save
 
-describe('#save', function () {
-  var diary = new Diary();
+  describe('#load', function () {
+    xit("loads the the diary object with the entries stored in the given file", function () {
+      expect(diary.key).toMatch(/^[a-z]+$/)
+    })
+  })// #load
 
-  xit("persists the current state of the diary the given file", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #save
-
-describe('#load', function () {
-  var diary = new Diary();
-
-  xit("loads the the diary object with the entries stored in the given file", function () {
-    expect(diary.key).toMatch(/^[a-z]+$/);
-  });
-}// #load
-
-
+})//Diary
 
   // it('can encode', function () {
-  //   expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10));
-  // });
+  //   expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10))
+  // })
 
   // xit('can decode', function () {
-  //   expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa');
-  // });
+  //   expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa')
+  // })
 
   // xit('is reversible', function () {
-  //   var plaintext = 'abcdefghij';
-  //   expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext);
-  // });
+  //   var plaintext = 'abcdefghij'
+  //   expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext)
+  // })
 
   // it('throws an error with an all caps key', function () {
   //   expect( function () {
-  //     new Cipher('ABCDEF');
-  //   }).toThrow(new Error('Bad key'));
-  // });
+  //     new Cipher('ABCDEF')
+  //   }).toThrow(new Error('Bad key'))
+  // })
 

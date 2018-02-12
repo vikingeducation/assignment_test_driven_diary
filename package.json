@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lortza/assignment_test_driven_diary/issues"
   },
-  "homepage": "https://github.com/lortza/assignment_test_driven_diary#readme"
+  "homepage": "https://github.com/lortza/assignment_test_driven_diary#readme",
+  "dependencies": {
+    "unless": "^0.1.1"
+  }
 }
