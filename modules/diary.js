@@ -35,7 +35,15 @@ class Diary {
     return filteredEntries
   }
 
-  search(input){}
+  search(input){
+    if (input === undefined) {
+      throw new Error('Please enter a search term')
+    } else {
+      input = input.trim().toLowerCase()
+    }
+    var filteredEntries = this.entries.filter(function(entry){ return entry[0].toLowerCase().includes(input) });
+    return filteredEntries
+  }
 
   save(dir){}
 
@@ -43,8 +51,9 @@ class Diary {
 }
 
 // var diary = new Diary()
-// diary.addEntry('mooky mook #juno #fomo')
+// diary.addEntry('Mooky Mook #juno #fomo')
 // diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
+// diary.search()
 // diary.date("12/25/1995")
 // console.log(diary.today.length);
 // diary.entry('zample clamp')

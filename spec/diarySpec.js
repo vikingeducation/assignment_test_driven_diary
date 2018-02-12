@@ -138,8 +138,26 @@ describe('Diary', function () {
 
 
   describe('#search', function () {
-    xit("returns a list of all notes with the given string", function () {
-      expect(diary.key).toMatch(/^[a-z]+$/)
+    it("returns a list of all notes with the given string", function () {
+      diary.addEntry("sample entry 1")
+      diary.addEntry("sample entry 2")
+      expect(diary.search("1").length).toEqual(1)
+    })
+
+    it("is case-insensitive", function () {
+      diary.addEntry("Sample entry 1")
+      diary.addEntry("sample entry 2")
+      expect(diary.search("s").length).toEqual(2)
+    })
+
+    it("handles leading and trailing whitespaces", function () {
+      diary.addEntry("sample entry")
+      expect(diary.search("   sample   ").length).toEqual(1)
+    })
+
+    it("prompts the user to enter a string if the input is blank", function () {
+      diary.addEntry("sample entry")
+      expect( function(){ diary.search() } ).toThrowError('Please enter a search term')
     })
   })// #search
 
