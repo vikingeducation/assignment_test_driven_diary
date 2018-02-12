@@ -7,8 +7,10 @@ class Diary {
   }
 
   addEntry(body, date){
-    date === undefined ? date = Date.now() : date = Date.parse(date);
-    this.entries.push([body, date])
+    var timestamp;
+    date === undefined ? timestamp = new Date() : timestamp = new Date(date);
+    this.entries.push([body, timestamp])
+
     var matches = body.split(' ').filter(word => word.startsWith('#'))
     var uniqueTags = matches.filter(match => !this.tags.includes(match))
 
@@ -21,7 +23,10 @@ class Diary {
   }
 
   today(){
-    var now = Date.now()
+    var _today = new Date().toDateString()
+    var todaysEntries = this.entries.filter(function(entry){ return entry[1].toDateString() === _today });
+
+    return todaysEntries
   }
 
   date(input){}
@@ -33,11 +38,13 @@ class Diary {
   load(dir){}
 }
 
-// var diary = new Diary()
-// diary.entry('mooky mook #juno #fomo')
+var diary = new Diary()
+diary.addEntry('mooky mook #juno #fomo')
+diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
+// console.log(diary.today.length);
 // diary.entry('zample clamp')
 
-// console.log(diary.entries[0].includes('mooky mook'));
+// console.log(diary.today());
 
 module.exports = Diary
 

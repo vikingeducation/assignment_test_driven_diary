@@ -46,22 +46,21 @@ describe('Diary', function () {
 
     it("contains the create date/time", function () {
       var body = "sample body"
-      var date = "Mon, 25 Dec 1995 13:30:00 GMT"
-      var createdAt = Date.now()
+      var createdAt = new Date().toDateString()
+
       diary.addEntry(body)
-      expect(diary.entries[0].includes(createdAt)).toBe(true)
+      expect(diary.entries[0][1].toDateString()).toEqual(createdAt)
     })
 
     it("takes an optional date argument", function () {
       var body = "sample body"
       var date = "Mon, 25 Dec 1995 13:30:00 GMT"
-      var createdAt = Date.now()
 
       diary.addEntry(body)
-      expect(diary.entries[0][1] <= Date.now()).toBe(true)
+      expect(diary.entries[0][1] <= new Date()).toBe(true)
 
       diary.addEntry(body, date)
-      expect(diary.entries[1][1]).toEqual(Date.parse(date))
+      expect(diary.entries[1][1]).toEqual(new Date(date))
     })
   })// #entry
 
@@ -115,10 +114,12 @@ describe('Diary', function () {
   describe('#today', function () {
     it("returns a list of all entries written today", function () {
 
-      diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
-      diary.addEntry("sample entry from today", Date.now())
+      var todaysDate = new Date()
 
-      expect(diary.today.length).toEqual(1)
+      diary.addEntry("sample entry from the past", "Mon, 25 Dec 1995 13:30:00 GMT")
+      diary.addEntry("sample entry from today", todaysDate)
+
+      expect(diary.today().length).toEqual(1)
     })
   })// #today
 
