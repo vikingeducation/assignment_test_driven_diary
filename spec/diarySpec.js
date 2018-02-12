@@ -163,13 +163,13 @@ describe('Diary', function () {
 
   describe('#save', function () {
     xit("persists the current state of the diary to the given file", function () {
-      expect(diary.key).toMatch(/^[a-z]+$/)
+      expect( diary.save("./.diary") ).to//
     })
   })// #save
 
   describe('#load', function () {
     xit("loads the the diary object with the entries stored in the given file", function () {
-      expect(diary.key).toMatch(/^[a-z]+$/)
+      expect( diary.load("./.diary") ).to//
     })
   })// #load
 
