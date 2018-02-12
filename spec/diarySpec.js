@@ -174,23 +174,3 @@ describe('Diary', function () {
   })// #load
 
 })//Diary
-
-  // it('can encode', function () {
-  //   expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10))
-  // })
-
-  // xit('can decode', function () {
-  //   expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa')
-  // })
-
-  // xit('is reversible', function () {
-  //   var plaintext = 'abcdefghij'
-  //   expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext)
-  // })
-
-  // it('throws an error with an all caps key', function () {
-  //   expect( function () {
-  //     new Cipher('ABCDEF')
-  //   }).toThrow(new Error('Bad key'))
-  // })
-
