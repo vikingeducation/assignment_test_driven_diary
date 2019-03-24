@@ -1,6 +1,8 @@
+const fs = require('fs');
+
 class Diary {
-  constructor() {
-    this.entries = [];
+  constructor(entries) {
+    this.entries = entries || [];
   }
   entry(text, timestamp=Date.now()) {
     this.entries.push({
@@ -65,6 +67,14 @@ class Diary {
       }
     })
     return matches;
+  }
+  save(path) {
+    let data = JSON.stringify( this.entries );
+    fs.writeFileSync(path, data);
+  }
+  load(path) {
+    let data = JSON.parse( fs.readFileSync('./.diary', 'utf8') )
+    return new Diary(data);
   }
 }
 

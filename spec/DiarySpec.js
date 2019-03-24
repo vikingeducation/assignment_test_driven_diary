@@ -1,4 +1,5 @@
 const Diary = require("../diary");
+const fs = require('fs');
 
 describe("Diary", () => {
 
@@ -88,6 +89,20 @@ describe("Diary", () => {
 
       let results = diary.search("impossible")
       expect(results).toEqual(["To dream the impossible dream", "To watch mission impossible" ])
+    })
+  })
+  describe('.save', () => {
+
+    afterEach(() => {
+      fs.unlinkSync('./.diary')
+    });
+
+    it('saves current state of the diary in desired file', () => {
+      let date = Date.now()
+      diary.entry("my message", Date.now())
+      diary.save("./.diary");
+      let results = JSON.parse( fs.readFileSync('./.diary', 'utf8') )
+      expect(results).toEqual([{text: 'my message', time: date}])
     })
   })
 })
