@@ -93,9 +93,9 @@ describe("Diary", () => {
   })
   describe('.save', () => {
 
-    afterEach(() => {
-      fs.unlinkSync('./.diary')
-    });
+    // afterEach(() => {
+    //   fs.unlinkSync('./.diary')
+    // });
 
     it('saves current state of the diary in desired file', () => {
       let date = Date.now()

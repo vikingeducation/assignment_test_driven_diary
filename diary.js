@@ -73,8 +73,14 @@ class Diary {
     fs.writeFileSync(path, data);
   }
   load(path) {
-    let data = JSON.parse( fs.readFileSync('./.diary', 'utf8') )
-    return new Diary(data);
+    var stringedData = fs.readFileSync(path, 'utf8');
+
+    if (stringedData) {
+      this.entries = JSON.parse(stringedData)
+    }
+    // let data = JSON.parse( fs.readFileSync(path, 'utf8') )
+    // return new Diary(data);
+    // console.log(data)
   }
 }
 
